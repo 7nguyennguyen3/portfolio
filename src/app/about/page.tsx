@@ -15,7 +15,7 @@ const AboutMePage = () => {
           Hello! I'm Nguyen Nguyen, a technology enthusiast with a passion for
           creating intuitive and engaging web applications 🌐. My journey began
           at a young age when I immersed myself in video games 🎮, sparking my
-          curiosity about computers 💻 and the web 🕸️. Over time, I've honed my
+          curiosity about computers 💻 and the web. Over time, I've honed my
           skills 👨‍💻 and built several projects from scratch 🔨. Let me share a
           bit more about my background and aspirations 🚀.
         </p>
@@ -80,6 +80,39 @@ const AboutMePage = () => {
         <p>
           Nature 🌿: Watching animals in their natural habitat relaxes me.
           There's something magical about observing their behaviors.
+        </p>
+      </div>
+      <div className="flex flex-col gap-3">
+        <p className="font-semibold text-lg">Current Endeavors</p>
+        <p>
+          At present, I’m immersed in developing an innovative platform that
+          leverages the latest in web technologies to deliver a seamless user
+          experience. My focus is on creating responsive, accessible, and
+          performant applications that not only meet but exceed user
+          expectations. 🌐
+        </p>
+      </div>
+      <div className="flex flex-col gap-3">
+        <p className="font-semibold text-lg">Professional Goals</p>
+        <p>
+          Looking ahead, my professional aspirations include leading a dynamic
+          team of developers 👨‍💻👩‍💻, contributing to open-source projects 🌍, and
+          continuously pushing the boundaries of what’s possible with modern web
+          development. 💡
+        </p>
+      </div>
+      <div className="flex flex-col gap-3">
+        <p className="font-semibold text-lg">Personal Achievements</p>
+        <p>
+          I am proud of my contributions to meaningful projects that have had a
+          tangible impact on users. PetalSoft has enhanced the online retail
+          experience by providing a seamless shopping platform with advanced
+          features like a chatbot 🤖 and an admin dashboard for business
+          operations 📊. Finance Kaiju has been instrumental in helping users
+          track their finances 💸, offering a practical tool for better
+          financial management. Hit Anime has brought joy to anime fans by
+          providing a streamlined way to browse their favorite content 📺,
+          improving accessibility and user engagement. ❤️
         </p>
       </div>
     </MaxWidthWrapper>

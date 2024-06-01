@@ -4,9 +4,23 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { buttonVariants } from "./ui/button";
+import { useState, useEffect } from "react";
 
 const Navbar = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
+  // const [mounted, setMounted] = useState(false);
+
+  const toggleTheme = () => {
+    setTheme(theme === "light" ? "dark" : "light");
+  };
+
+  // useEffect(() => {
+  //   setMounted(true);
+  // }, [theme]);
+
+  // if (!mounted) {
+  //   return null;
+  // }
 
   return (
     <nav
@@ -53,11 +67,8 @@ const Navbar = () => {
               <Coffee className="ml-1.5 h-5 w-5" />
             </Link>
 
-            <button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="ml-4"
-            >
-              {theme === "dark" ? <Sun /> : <Moon />}
+            <button onClick={toggleTheme} className="ml-4">
+              {resolvedTheme === "dark" ? <Sun /> : <Moon />}
             </button>
           </div>
         </div>

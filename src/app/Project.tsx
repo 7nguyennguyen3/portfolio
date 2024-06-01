@@ -28,7 +28,7 @@ const Project = ({
         {technologies.map((tech, index) => (
           <span
             key={index}
-            className="bg-black text-white p-[6px] text-[12px] rounded-md pointer-events-none"
+            className="bg-slate-700 dark:bg-slate-500 text-white p-[6px] text-[12px] rounded-md pointer-events-none"
           >
             {tech}
           </span>

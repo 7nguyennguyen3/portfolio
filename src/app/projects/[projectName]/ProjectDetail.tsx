@@ -59,7 +59,7 @@ const PROJECTS: Projects = {
     imageSrc: "/portfolio-petalsoft.webp",
     images: [
       "/petalsoft-6.webp",
-      "/petalsoft-2.webp",
+      "/petalsoft-7.webp",
       "/petalsoft-4.webp",
       "/petalsoft-5.webp",
     ],
@@ -79,23 +79,25 @@ const PROJECTS: Projects = {
     webStackExplanation: (
       <div className="flex flex-col gap-5">
         <p>
-          I built this project as usual with{" "}
-          <span className="font-bold">Next.js</span>. I used{" "}
-          <span className="font-bold">Prisma</span> as the ORM to connect to{" "}
-          <span className="font-bold">PostgreSQL</span> database. I also used{" "}
-          <span className="font-bold">Stripe</span> for payment processing,{" "}
-          <span className="font-bold">Cloudinary</span> for image hosting for
-          products, and <span className="font-bold">Kinde</span> for quick
-          authentication.
+          For my latest project, I chose{" "}
+          <span className="font-bold">Next.js</span> for its robust features. I
+          connected to the <span className="font-bold">PostgreSQL</span>{" "}
+          database using <span className="font-bold">Prisma</span> as my ORM.
+          Handling payments was a breeze with{" "}
+          <span className="font-bold">Stripe</span>, and for storing product
+          images, I went with <span className="font-bold">Cloudinary</span>.
+          Quick user authentication? No problem, thanks to{" "}
+          <span className="font-bold">Kinde</span>.
         </p>
         <p>
-          The project is hosted on <span className="font-bold">Vercel</span>. I
-          also used <span className="font-bold">Framer Motion</span> for
-          animation, <span className="font-bold">Zustand</span> for state
-          management, and <span className="font-bold">TailwindCSS</span> for
-          styling. In addition, I used{" "}
-          <span className="font-bold">React Email</span> to customize email sent
-          to user after they made a purchase.
+          I'm hosting the project on <span className="font-bold">Vercel</span>{" "}
+          for its lightning-fast performance. For a touch of flair, I added
+          animations with <span className="font-bold">Framer Motion</span>,
+          managed the app state using <span className="font-bold">Zustand</span>
+          , and styled everything to perfection with{" "}
+          <span className="font-bold">Tailwind CSS and Shadcn-UI</span>. Plus, I
+          personalized the post-purchase emails with{" "}
+          <span className="font-bold">React Email</span>.
         </p>
       </div>
     ),
@@ -133,7 +135,7 @@ const PROJECTS: Projects = {
     ],
     imageSrc: "/portfolio-finance-kaiju.webp",
     images: [
-      "/finance-kaiju-1.webp",
+      "/finance-kaiju-6.webp",
       "/finance-kaiju-3.webp",
       "/finance-kaiju-4.webp",
       "/finance-kaiju-5.webp",
@@ -165,21 +167,21 @@ const PROJECTS: Projects = {
     webStackExplanation: (
       <div className="flex flex-col gap-5">
         <p>
-          Built on <span className="font-bold">Next.js</span>, Finance-Kaiju
-          leverages server-side rendering, static site generation, and API
-          routes. The backend, powered by{" "}
+          I built Finance-Kaiju with <span className="font-bold">Next.js</span>,
+          taking advantage of features like server-side rendering and static
+          site generation to create a fast and reliable platform. I used{" "}
           <span className="font-bold">Node.js</span> and{" "}
-          <span className="font-bold">Prisma</span>, connects seamlessly to{" "}
-          <span className="font-bold">PostgreSQL</span>.{" "}
-          <span className="font-bold">TailwindCSS</span> ensures a modern, clean
-          frontend.
+          <span className="font-bold">Prisma</span> for the backend, which
+          connects smoothly to my <span className="font-bold">PostgreSQL</span>{" "}
+          database. The design is clean and modern, thanks to{" "}
+          <span className="font-bold">TailwindCSS</span>.
         </p>
         <p>
-          <span className="font-bold">Langchain</span> drives the AI chatbot,
-          while <span className="font-bold">NextAuth</span> ensures secure user
-          authentication. The project is hosted on{" "}
-          <span className="font-bold">Vercel</span>, guaranteeing fast load
-          times and reliability.
+          I integrated <span className="font-bold">Langchain</span> to power the
+          AI chatbot, making it smart and helpful. For logging in, I set up{" "}
+          <span className="font-bold">NextAuth</span> to keep user accounts
+          secure. I chose <span className="font-bold">Vercel</span> for hosting
+          because it's fast and reliable.
         </p>
       </div>
     ),

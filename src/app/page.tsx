@@ -7,7 +7,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
-import { Coffee, Github, Linkedin } from "lucide-react";
+import { Coffee, Github, Linkedin, Mail, Phone } from "lucide-react";
 import Link from "next/link";
 import Project from "./Project";
 
@@ -55,13 +55,14 @@ export default function Home() {
             </h1>
             <div className="flex items-center gap-3 relative">
               <a
-                href="https://github.com/7nguyennguyen`3"
+                href="https://github.com/7nguyennguyen3"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-white bg-purple-700 hover:bg-purple-600 p-2 rounded-full"
               >
                 <Github size={24} />
               </a>
+
               <a
                 href="https://www.linkedin.com/in/7nguyennguyen3"
                 target="_blank"
@@ -70,12 +71,30 @@ export default function Home() {
               >
                 <Linkedin size={24} />
               </a>
+
+              <a
+                href="mailto:hello@2nguyen.info"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white bg-orange-700 hover:bg-orange-600 p-2 rounded-full"
+                title="hello@2nguyen.info"
+              >
+                <Mail size={24} />
+              </a>
+
+              <Link
+                href="/contact"
+                className="text-white bg-green-700 hover:bg-green-600 p-2 rounded-full"
+                title="714-468-8426"
+              >
+                <Phone size={24} />
+              </Link>
             </div>
 
             <p className="mt-2 text-neutral-200 relative z-20 text-lg md:text-xl max-w-[400px]">
               🚀 I love exploring new technologies and building cool
               applications. I'm a lifelong learner 📚 and I watch animals do
-              funny stuff 🐾 when I'm not coding.
+              their things and being themselves 🐾 when I'm not coding.
             </p>
           </div>
         </MaxWidthWrapper>
@@ -102,7 +121,7 @@ export default function Home() {
                   return (
                     <div
                       key={index}
-                      className="bg-slate-800 text-white p-2 rounded-md text-[13px] shadow-md cursor-pointer"
+                      className="bg-slate-700 dark:bg-slate-500 text-white p-2 rounded-md text-[13px] shadow-md cursor-pointer"
                     >
                       <HoverCard openDelay={0} closeDelay={0}>
                         <HoverCardTrigger>{skill.skill}</HoverCardTrigger>
@@ -117,17 +136,17 @@ export default function Home() {
                   );
                 })}
               </div>
-              <p className="text-lg font-bold">I love to build stuff</p>
+              <p className="text-lg font-bold">I love to build stuff 👨‍💻</p>
               <p>
                 I discovered the magic of computers at the age of 8, and it was
-                love at first sight. Since then, I've been on a journey of
-                discovery and creation. From conjuring worlds in video games to
-                crafting designs in Photoshop, each experience has been a
-                stepping stone in my path as a developer. Now, as a Full Stack
-                Developer, I continue to explore and innovate, always looking
-                for the next challenge to conquer.
+                love at first 'byte'. Since then, I've been on a journey of
+                discovery and creation. From trying to make the next plant vs
+                zombie 🌱🧟‍♂️ to crafting designs in Photoshop, each experience
+                has been a stepping stone in my path as a developer. Now, as a
+                Full Stack Developer, I continue to explore and innovate, always
+                looking for the next challenge to conquer. 🚀
               </p>
-              <Link href="/bio">
+              <Link href="/about">
                 <p className="text-lg font-bold text-blue-600">
                   Keep reading my bio
                 </p>
@@ -209,8 +228,8 @@ export default function Home() {
               </a>
             </p>
             <p>
-              If you have any other questions, please feel free to ask my
-              chatbot on the bottom right of the screen!
+              If you have any other questions about me, please feel free to ask
+              my chatbot on the bottom right of the screen!
             </p>
             <Link
               href="/contact"

@@ -17,7 +17,7 @@ const Chatbot = () => {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isOpen]);
 
   const requestData = {
     question: userMessage,
@@ -154,7 +154,6 @@ const Chatbot = () => {
                     );
                     return [...newMessages, data.text];
                   });
-                  console.log(data);
                 } catch (error) {
                   console.error(error);
                 } finally {
