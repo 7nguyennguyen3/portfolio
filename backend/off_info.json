@@ -1,0 +1,105 @@
+{
+  "summary": {
+    "content": {
+      "about": "Nguyen Nguyen is a passionate full-stack developer with a love for technology, creativity, and learning. With a 'brute force' approach to coding, he enjoys tackling challenges and expanding his skills. Beyond tech, he finds joy in cooking and nature walks.",
+      "skills": "Proficient in TypeScript, JavaScript, and Python, Nguyen specializes in full-stack development using React, Next.js, FastAPI, and PostgreSQL. He is experienced with tools like Docker, Kubernetes, and AI frameworks such as LangChain.",
+      "projects": "Nguyen has developed a range of projects, including Versa AI for PDF-based conversations, an AI-powered e-commerce store, a microservices marketplace, and Finance Kaiju, a personal finance tracker.",
+      "contact": "Nguyen is open to connections via email or text. He prefers texting over calls from unknown numbers and has a chatbot available for inquiries."
+    }
+  },
+  "about": {
+    "content": {
+      "name": "Nguyen Nguyen",
+      "title": "Passionate Full-Stack Developer | Aspiring Creator | Animal Enthusiast 🐾",
+      "introduction": "Hello! I'm Nguyen Nguyen, a technology enthusiast with a passion for creating intuitive and engaging web applications 🌐. My journey began at a young age when I immersed myself in video games 🎮, sparking my curiosity about computers 💻 and the web. Over time, I've honed my skills 👨‍💻 and built several projects from scratch 🔨. Let me share a bit more about my background and aspirations 🚀.",
+      "note": "I'm Vietnamese, I will be 23 years old on July 2025, I am a U.S. citizen. I am currently living in California, and I am looking for a full-time job as a software engineer. I am also open to internships and part-time jobs. Please feel free to reach out if you have any opportunities or questions! ",
+      "learning_journey": "I'm an avid learner, always open to new challenges. Starting with front-end development, I gradually expanded my skills to become a full-stack developer. My goal is to create software and applications that are useful to others 🌐.",
+      "coding_philosophy": "I believe in the 'brute force' approach: tackling challenges head-on until I truly understand them. Once I grasp a concept, it becomes a lifelong skill 💡.",
+      "beyond_technology": {
+        "content": {
+          "learning_to_cook": "I love experimenting in the kitchen by following cooking videos or guides. It feels great when the dish comes out delicious. 🍳",
+          "walking_in_nature": "Taking long walks in nature helps me recharge and stay grounded. Usually in a park, being surrounded by greenery and fresh air is both refreshing and inspiring. 🌳"
+        }
+      },
+      "current_endeavors": "At present, I’m immersed in developing an innovative platform that leverages the latest in web technologies to deliver a seamless user experience. My focus is on creating responsive, accessible, and performant applications that not only meet but exceed user expectations. 🌐",
+      "professional_goals": "Looking ahead, my professional aspirations include leading a dynamic team of developers 👨‍💻👩‍💻, contributing to open-source projects 🌍, and continuously pushing the boundaries of what’s possible with modern web development. 💡"
+    }
+  },
+  "skills": {
+    "content": {
+      "languages": ["TypeScript", "JavaScript", "Python", "HTML", "CSS"],
+      "front_end": ["React", "Next.js", "Vue"],
+      "back_end": [
+        "Node.js",
+        "Python",
+        "FastAPI",
+        "Flask",
+        "Serverless functions",
+        "RESTful APIs"
+      ],
+      "databases": [
+        "SQL",
+        "PostgreSQL",
+        "MongoDB",
+        "Firebase & Firebase Storage",
+        "Vercel Blob"
+      ],
+      "tools_and_libraries": [
+        "Git",
+        "GitHub",
+        "Redux",
+        "Zustand",
+        "Prisma",
+        "Tailwind CSS",
+        "Framer Motion",
+        "Redis",
+        "Jest",
+        "Sentry"
+      ],
+      "other": [
+        "Stripe Payment Integration",
+        "LangChain framework for AI-powered chatbots",
+        "Docker",
+        "Kubernetes"
+      ]
+    }
+  },
+  "projects": {
+    "content": [
+      {
+        "title": "Versa AI - Conversation with PDFs",
+        "description": "A platform that lets you have a conversation with your PDFs. It uses AI to understand the content of the PDF and lets you ask questions about it. It is built to be scalable and reliable."
+      },
+      {
+        "title": "Microservices - Marketplace",
+        "description": "A marketplace that lets users list and sell products. It follows the microservices architecture where each service is independently functioning. It is built to be scalable and reliable."
+      },
+      {
+        "title": "Finance Kaiju Mobile - Personal Finance Tracker App",
+        "description": "A mobile yet more advanced version of the original Finance Kaiju. With better UI/UX and more features, it is a great app to keep track of your finance. Currently in closed testing in Play Store and not available for download."
+      },
+      {
+        "title": "PetalSoft: E-Commerce Store with AI-Powered Chatbot",
+        "description": "An e-commerce store that sells skin care and perfumes. It has a lot of cool stuff like a specialized chatbot, Stripe payment processing, admin dashboard, and more!"
+      },
+      {
+        "title": "Hit Anime - Your Anime App for Quickly Searching Your Next Anime",
+        "description": "A friendly anime web app that lets you quickly search for your next anime to watch. It is optimized to be quick and simple so you can find your next series or movie!"
+      },
+      {
+        "title": "Finance Kaiju - Personal Finance Tracker",
+        "description": "A finance and goal-tracking app that makes it easier to get on top of your spending. It has real-time updates whenever you add or update any goal or finance record."
+      }
+    ]
+  },
+  "contact": {
+    "content": {
+      "title": "My Contact Info",
+      "description": "Let's Connect!",
+      "email": "7nguyennguyen3@gmail.com",
+      "phone": "714-468-8426",
+      "chatbot_note": "If you have any other questions, feel free to ask the chatbot in the bottom right corner. I trained it to answer questions about me!",
+      "note": "Please text me as I don't take phone calls from unknown numbers. We can schedule a call after texting!"
+    }
+  }
+}

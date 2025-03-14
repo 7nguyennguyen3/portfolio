@@ -1,0 +1,8 @@
+langchain
+langchain-openai
+langchain-community
+langchain-pinecone
+langchainhub 
+fastapi
+uvicorn
+slowapi

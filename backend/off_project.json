@@ -1,0 +1,100 @@
+{
+  "section": {
+    "projects": {
+      "versa-ai": {
+        "link": "https://versa-ai.co",
+        "title": "Versa AI - Conversation with PDFs",
+        "technologies": [
+          "Next.js",
+          "Typescript",
+          "Firebase Database & Storage",
+          "OpenAI",
+          "LangChain",
+          "Python",
+          "Node.js",
+          "FastAPI",
+          "JWT Authentication",
+          "LLM",
+          "Pinecone",
+          "Embedding",
+          "Custom Memory"
+        ],
+        "description": "A platform that lets you have a conversation with your PDFs. It uses AI to understand the content of the PDF and lets you ask questions about it. It is built to be scalable and reliable.",
+        "href": "/projects/versa-ai"
+      },
+      "microservices": {
+        "link": "/projects/microservices",
+        "title": "Microservices - Marketplace",
+        "technologies": [
+          "Node.js",
+          "Express",
+          "Typescript",
+          "MongoDB",
+          "Redis",
+          "Docker",
+          "Kubernetes",
+          "Nginx",
+          "Next.js"
+        ],
+        "description": "A marketplace that lets users list and sell products. It follows the microservices architecture where each service is independently functioning. It is built to be scalable and reliable.",
+        "href": "/projects/microservices"
+      },
+      "finance-kaiju-mobile": {
+        "link": "/projects/finance-kaiju-mobile",
+        "title": "Finance Kaiju Mobile - Personal Finance Tracker App",
+        "technologies": [
+          "React Native",
+          "Typescript",
+          "Firebase | Cloud Database",
+          "Firebase Authentication",
+          "Expo"
+        ],
+        "description": "A mobile yet more advanced version of the original Finance Kaiju. With better UI/UX and more features, it is a great app to keep track of your finance. Currently in closed testing in Play Store and not available for download.",
+        "href": "/projects/finance-kaiju-mobile"
+      },
+      "petalsoft": {
+        "link": "https://petalsoft.store",
+        "title": "PetalSoft: E-Commerce Store with AI-Powered Chatbot",
+        "technologies": [
+          "Next.js",
+          "Typescript",
+          "Stripe & Webhook",
+          "Restful API",
+          "AI Chatbot",
+          "PostgreSQL",
+          "Custom Email",
+          "Authentication"
+        ],
+        "description": "An e-commerce store that sells skin care and perfumes. It has a lot of cool stuff like a specialized chatbot, Stripe payment processing, admin dashboard, and more!",
+        "href": "/projects/petalsoft"
+      },
+      "hit-anime": {
+        "link": "https://hit-anime.vercel.app",
+        "title": "Hit Anime - Your Anime App for Quickly Searching Your Next Anime",
+        "technologies": [
+          "Next.js",
+          "Typescript",
+          "RESTful API",
+          "Framer Motion",
+          "Tanstack React Query"
+        ],
+        "description": "A friendly anime web app that lets you quickly search for your next anime to watch. It is optimized to be quick and simple so you can find your next series or movie!",
+        "href": "/projects/hit-anime"
+      },
+      "finance-kaiju": {
+        "link": "https://goal-tracker-nine-iota.vercel.app",
+        "title": "Finance Kaiju - Personal Finance Tracker",
+        "technologies": [
+          "Next.js",
+          "Typescript",
+          "Restful API",
+          "AI Chatbot",
+          "PostgreSQL | Cloud Database",
+          "NextAuth"
+        ],
+        "description": "A finance and goal-tracking app that makes it easier to get on top of your spending. It has real-time updates whenever you add or update any goal or finance record.",
+        "href": "/projects/finance-kaiju"
+      }
+    }
+  }
+}
