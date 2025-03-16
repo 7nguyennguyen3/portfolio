@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const response = await axios.post(`${NEXT_PUBLIC_BACKEND_URL}/chat`, {
+    const response = await axios.post(`${NEXT_PUBLIC_BACKEND_URL}/portfolio`, {
       user_message,
       chat_secret: CHAT_SECRET,
     });
