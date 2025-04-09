@@ -122,7 +122,7 @@ const Projects = () => {
           ]}
         />
         <Project
-          link="https://goal-tracker-nine-iota.vercel.app"
+          link="https://finance-kaiju.vercel.app"
           title="Finance Kaiju - Personal Finance Tracker"
           technologies={[
             "Next.js",
