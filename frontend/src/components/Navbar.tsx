@@ -1,26 +1,17 @@
 "use client";
-import { Coffee, Moon, Sun } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Coffee, Home, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { buttonVariants } from "./ui/button";
-import { useState, useEffect } from "react";
 
 const Navbar = () => {
   const { theme, setTheme, resolvedTheme } = useTheme();
-  // const [mounted, setMounted] = useState(false);
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
-
-  // useEffect(() => {
-  //   setMounted(true);
-  // }, [theme]);
-
-  // if (!mounted) {
-  //   return null;
-  // }
 
   return (
     <nav
@@ -29,13 +20,18 @@ const Navbar = () => {
     >
       <MaxWidthWrapper>
         <div className="flex h-14 items-center justify-between border-b border-zinc-200">
-          <Link href="/" className="flex z-40 font-semibold">
-            <div className="w-10 h-10">
-              <img src="/shieldfavicon.png" alt="logo icon" />
-            </div>
+          <Link
+            href="/"
+            aria-label="Homepage"
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "icon" }),
+              "text-primary hover:bg-accent rounded-full p-3 text-black"
+            )}
+          >
+            <Home className="scale-[180%]" />
           </Link>
 
-          <div className="h-full flex items-center space-x-4">
+          <div className="h-full flex items-center space-x-4 text-black">
             <Link
               href="/projects"
               className={buttonVariants({

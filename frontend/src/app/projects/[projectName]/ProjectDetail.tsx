@@ -1,14 +1,16 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
+  AlertTriangle,
   ArrowRight,
   Check,
+  ExternalLink,
   Github,
-  LoaderPinwheel,
-  PictureInPicture2,
   Rocket,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -33,6 +35,72 @@ type Projects = {
 };
 
 const PROJECTS: Projects = {
+  chatbotDemo: {
+    githubLink: "https://github.com/7nguyennguyen3/chatbot-ui-demo", // Added from previous context
+    id: 7, // Assign a unique ID
+    title: "Chatbot UI Demo",
+    quickSummary:
+      "Demonstrates lead generation & customer service AI chatbots.", // Shortened summary
+    type: "AI Chatbot Application", // Define project type
+    stack: [
+      // Combine from props and description
+      "Next.js",
+      "TypeScript", // Corrected capitalization
+      "Tailwind CSS",
+      "Python",
+      "LangGraph",
+      "Redis",
+      "PostgreSQL",
+      "OpenAI",
+      "Google Gemini",
+      "Docker",
+      "Railway",
+    ],
+    imageSrc: "/chatbot-demo-0.webp",
+    images: [
+      // Copied from props
+      "/chatbot-demo-6.webp",
+      "/chatbot-demo-3.webp",
+      "/chatbot-demo-2.webp",
+      "/chatbot-demo-4.webp",
+      "/chatbot-demo-5.webp",
+    ],
+    // Expanded from description
+    projectPurpose: (
+      <div className="flex flex-col gap-5">
+        <p>
+          This project serves as a demonstration platform for two distinct
+          AI-powered chatbots, showcasing different use cases within a web
+          interface. 🤖💬
+        </p>
+        <p>
+          It features a lead generation assistant designed to capture potential
+          customer interest and a customer service bot tailored to handle
+          inquiries for an online store, illustrating practical AI applications
+          in business.
+        </p>
+      </div>
+    ),
+    webStackExplanation: [
+      // Derived from description and stack
+      "The responsive frontend is built using Next.js, TypeScript, and Tailwind CSS, providing a modern and interactive user experience for chatting.",
+      "The backend logic is powered by Python, utilizing LangGraph for creating stateful, multi-actor chatbot applications. It leverages models from both OpenAI and Google Gemini.",
+      "Redis and PostgreSQL are used for managing application state and potentially storing conversation history, ensuring persistence and scalability.",
+      "The entire application is containerized using Docker and deployed on Railway, showcasing a cloud-native deployment strategy.",
+    ],
+    features: [
+      // Derived from description and purpose
+      "Lead Generation Chatbot Example",
+      "Customer Service Chatbot Example",
+      "Dual AI Model Integration (OpenAI/Gemini)",
+      "State Management with LangGraph",
+      "Persistent Storage (Redis/PostgreSQL)",
+      "Responsive Chat Interface (Next.js/Tailwind)",
+      "Dockerized Application",
+      "Cloud Deployment (Railway)",
+    ],
+    link: "https://chatbot-ui-demo-three.vercel.app", // Copied from props
+  },
   versaAi: {
     githubLink: "https://github.com/7nguyennguyen3/versa-ai",
     id: 6,
@@ -414,144 +482,250 @@ function kebabToCamel(str: string) {
   });
 }
 
+function isStringArray(value: any): value is string[] {
+  return (
+    Array.isArray(value) && value.every((item) => typeof item === "string")
+  );
+}
+
 const ProjectDetail = ({ projectName }: { projectName: string }) => {
   const camelCaseProjectName = kebabToCamel(projectName);
-  console.log(projectName);
-  console.log(camelCaseProjectName);
-  const project = PROJECTS[camelCaseProjectName];
+  // Find project - use 'as keyof typeof PROJECTS' for type safety if needed
+  const project: Project | undefined =
+    PROJECTS[camelCaseProjectName as keyof typeof PROJECTS];
 
+  // Handle case where project is not found
+  if (!project) {
+    return (
+      <div className="py-20 min-h-[calc(100vh-10rem)] flex flex-col items-center justify-center text-center">
+        <MaxWidthWrapper>
+          <AlertTriangle className="w-16 h-16 text-red-500 mb-4" />
+          <h1 className="text-3xl font-bold mb-2">Project Not Found</h1>
+          <p className="text-muted-foreground mb-6">
+            Could not find details for a project named "{projectName}".
+          </p>
+          <Link
+            href="/projects"
+            className={cn(buttonVariants({ variant: "default" }))}
+          >
+            Back to Projects
+          </Link>
+        </MaxWidthWrapper>
+      </div>
+    );
+  }
+
+  // Filter other projects (ensure PROJECTS is treated as an object)
   const projectArray = Object.values(PROJECTS);
-  const otherProjects = projectArray.filter((p) => p.id !== project.id);
+  const otherProjects = projectArray
+    .filter((p) => p.id !== project.id)
+    .slice(0, 3); // Show max 3 other projects
+
+  const hasLiveSite = project.link && !project.noSite;
 
   return (
-    <div className="py-20">
+    // Add top padding matching your navbar height (e.g., pt-16 for h-16 navbar)
+    <div className="pt-16 pb-20 md:pb-24 lg:pb-32">
       <MaxWidthWrapper>
-        <div className="flex flex-col gap-5">
-          <h1 className="text-heading flex items-center gap-5">
-            {project.title}
-            <a
-              href={project.githubLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white bg-purple-700 hover:bg-purple-600 p-2 rounded-full"
-            >
-              <Github size={20} />
-            </a>
-          </h1>
-          {project.noSite ? (
-            <Button
-              className={cn(
-                buttonVariants(),
-                "gap-2 cursor-pointer text-white bg-gradient-to-r from-blue-600 to bg-red-500 hover:from-blue-500 hover:to-red-400 w-[200px]"
-              )}
-              disabled={project.noSite}
-            >
-              No Site Available
-            </Button>
-          ) : (
-            <a
-              className={cn(
-                buttonVariants(),
-                "gap-2 cursor-pointer text-white bg-gradient-to-r from-blue-600 to bg-red-500 hover:from-blue-500 hover:to-red-400 w-[200px]"
-              )}
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Visit Site
-              <PictureInPicture2 />
-            </a>
-          )}
-          <h2 className="text-lg font-medium">{project.quickSummary}</h2>
-          <LoaderPinwheel className="animate-spin text-blue-600" />
-          <h2 className="text-heading">Type: {project.type}</h2>
-          <div className="flex flex-wrap items-center gap-2">
-            {project.stack.map((tech, index) => (
-              <span
-                key={index}
-                className="bg-black text-white p-[6px] text-[12px] rounded-md pointer-events-none"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-          <div className="w-full transform hover:scale-[1.035] transition-transform duration-200">
-            <img
-              alt="project image"
-              loading="lazy"
-              src={project.imageSrc}
-              className="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 object-contain"
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <h3 className="text-heading">Web Stack & Explanation</h3>
-            {Array.isArray(project.webStackExplanation) ? (
-              project.webStackExplanation.map(
-                (explanation: string, index: number) => (
-                  <p key={index} className="flex items-center gap-2">
-                    <Rocket className="text-blue-600" />
-                    {explanation}
-                  </p>
-                )
-              )
-            ) : (
-              <>{project.webStackExplanation}</>
-            )}
-          </div>
-          <h3 className="text-heading">Features</h3>
-          <ul>
-            {project.features.map((feature, index) => (
-              <li key={index} className="flex items-center gap-2 mb-2">
-                <Check className="text-blue-600" />
-                {feature}
-              </li>
-            ))}
-          </ul>
-          <h3 className="text-heading">Project Purpose and Goal</h3>
-          <div>{project.projectPurpose}</div>
-          <div
-            className="grid xs:grid-cols-1 sm:grid-cols-2 
-           gap-5 sm:gap-10 lg:gap-14 my-28"
-          >
-            {project.images.map((image, index) => (
-              <div
-                key={index}
-                className="w-[90%] mx-auto transform hover:scale-105 transition-transform duration-200"
-              >
-                <img
-                  alt="project image"
-                  loading="lazy"
-                  src={image}
-                  className="rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 object-contain"
-                />
+        {/* Main layout grid: 1 column mobile, 3 columns desktop (2 for main, 1 for sidebar) */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          {/* --- Main Content Area --- */}
+          <div className="lg:col-span-2 flex flex-col gap-8 md:gap-10">
+            {/* Header */}
+            <div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3">
+                {project.title}
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground">
+                {project.quickSummary}
+              </p>
+            </div>
+
+            {/* Main Project Image */}
+            <div className="relative overflow-hidden rounded-lg shadow-lg border aspect-video">
+              <Image
+                src={project.imageSrc}
+                alt={`${project.title} main screenshot`} // More specific alt text
+                layout="fill" // Use fill layout
+                objectFit="cover" // Cover tends to look better unless detail is lost
+                priority // Prioritize loading the main image
+                className="transition-transform duration-300 ease-in-out hover:scale-105"
+              />
+            </div>
+
+            {/* Project Purpose */}
+            <section>
+              <h2 className="text-2xl font-semibold mb-4 border-b pb-2">
+                Project Purpose
+              </h2>
+              <div className="prose prose-invert max-w-none text-muted-foreground">
+                {" "}
+                {/* Style rich text */}
+                {project.projectPurpose}
               </div>
-            ))}
-          </div>
-          <div className="flex gap-5 justify-between items-center w-full xs:flex-col sm:flex-row flex-wrap">
-            <a
-              className={cn(
-                buttonVariants(),
-                "gap-2 cursor-pointer text-white bg-gradient-to-r from-blue-600 to bg-red-500 hover:from-blue-500 hover:to-red-400 w-[200px]"
+            </section>
+
+            {/* Web Stack Explanation */}
+            <section>
+              <h2 className="text-2xl font-semibold mb-4 border-b pb-2">
+                Web Stack & Explanation
+              </h2>
+              <div className="flex flex-col gap-4">
+                {isStringArray(project.webStackExplanation) ? (
+                  project.webStackExplanation.map((explanation, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <Rocket className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
+                      <p className="text-muted-foreground">{explanation}</p>
+                    </div>
+                  ))
+                ) : (
+                  <div className="prose prose-invert max-w-none text-muted-foreground">
+                    {" "}
+                    {/* Style rich text */}
+                    {project.webStackExplanation}
+                  </div>
+                )}
+              </div>
+            </section>
+
+            {/* Features */}
+            <section>
+              <h2 className="text-2xl font-semibold mb-4 border-b pb-2">
+                Key Features
+              </h2>
+              <ul className="space-y-3">
+                {project.features.map((feature, index) => (
+                  <li key={index} className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-muted-foreground">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+
+            {/* Image Gallery */}
+            {project.images && project.images.length > 0 && (
+              <section>
+                <h2 className="text-2xl font-semibold mb-6 border-b pb-2">
+                  Gallery
+                </h2>
+                {/* Responsive grid for gallery images */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                  {project.images.map((image, index) => (
+                    <div
+                      key={index}
+                      className="relative aspect-video overflow-hidden rounded-lg shadow-md 
+                      border group"
+                    >
+                      <img
+                        src={image}
+                        alt={`${project.title} screenshot ${index + 1}`}
+                        loading="lazy"
+                        className="transition-transform duration-300 ease-in-out group-hover:scale-105"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>{" "}
+          {/* End Main Content Area */}
+          {/* --- Sidebar Area --- */}
+          {/* Make sidebar sticky on larger screens */}
+          <aside className="lg:col-span-1 lg:sticky lg:top-24 h-fit flex flex-col gap-6 p-6 border rounded-lg shadow-sm bg-card">
+            {" "}
+            {/* Added basic styling */}
+            <h3 className="text-xl font-semibold border-b pb-3">
+              Project Info
+            </h3>
+            {/* Call to Action Buttons */}
+            <div className="flex flex-col gap-3">
+              {hasLiveSite ? (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    buttonVariants({ variant: "default", size: "lg" }),
+                    "gap-2 w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  )}
+                >
+                  Visit Live Site
+                  <ExternalLink size={18} />
+                </a>
+              ) : (
+                <Button size="lg" disabled className="w-full gap-2">
+                  No Site Available
+                </Button>
               )}
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Visit {project.title}
-              <PictureInPicture2 />
-            </a>
-            {otherProjects.map((otherProject) => (
-              <Link
-                className={cn(buttonVariants(), "gap-2 w-[200px]")}
-                key={otherProject.id}
-                href={`/projects/${otherProject.title.toLocaleLowerCase()}`}
-              >
-                View {otherProject.title}
-                <ArrowRight size={22} />
-              </Link>
-            ))}
-          </div>
-        </div>
+              {project.githubLink && (
+                <a
+                  href={project.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={cn(
+                    buttonVariants({ variant: "secondary", size: "lg" }),
+                    "gap-2 w-full"
+                  )}
+                >
+                  View on GitHub
+                  <Github size={18} />
+                </a>
+              )}
+            </div>
+            {/* Project Type */}
+            <div>
+              <h4 className="font-semibold mb-1 text-sm text-muted-foreground uppercase tracking-wider">
+                Type
+              </h4>
+              <p>{project.type}</p>
+            </div>
+            {/* Tech Stack */}
+            <div>
+              <h4 className="font-semibold mb-2 text-sm text-muted-foreground uppercase tracking-wider">
+                Tech Stack
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {project.stack.map((tech, index) => (
+                  <Badge key={index} variant="secondary">
+                    {" "}
+                    {/* Use Badge component */}
+                    {tech}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+            {/* Other Projects */}
+            {otherProjects.length > 0 && (
+              <div>
+                <h4 className="font-semibold mb-3 text-sm text-muted-foreground uppercase tracking-wider border-t pt-4">
+                  Other Projects
+                </h4>
+                <div className="flex flex-col gap-3">
+                  {otherProjects.map((otherProject) => (
+                    <Link
+                      key={otherProject.id}
+                      // Assuming your URL structure is /projects/[kebab-case-title]
+                      // You might need a slug field or a function to generate this reliably
+                      href={`/projects/${otherProject.title
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                      className="text-sm hover:text-blue-500 hover:underline flex items-center justify-between group"
+                    >
+                      {otherProject.title}
+                      <ArrowRight
+                        size={16}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </aside>{" "}
+          {/* End Sidebar Area */}
+        </div>{" "}
+        {/* End Main Grid */}
       </MaxWidthWrapper>
     </div>
   );

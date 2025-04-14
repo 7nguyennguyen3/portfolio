@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     throw new Error("CHAT_SECRET is not defined");
   }
 
-  const { user_message } = await request.json();
+  const { user_message, history } = await request.json();
 
   if (!user_message) {
     return NextResponse.json(
@@ -22,9 +22,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const combinedMessage = `You are Nguyen Nguyen's personal assistant tasked with answer user questions about his portfolio.
+  \nUser question: ${user_message}\Conversation history:\n${history}`;
+
   try {
     const response = await axios.post(`${NEXT_PUBLIC_BACKEND_URL}/portfolio`, {
-      user_message,
+      user_message: combinedMessage,
       chat_secret: CHAT_SECRET,
     });
 

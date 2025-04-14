@@ -1,144 +1,183 @@
 "use client";
-import { buttonVariants } from "@/components/ui/button";
+
+import { Badge } from "@/components/ui/badge";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, ExternalLink, Eye } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import useEmblaCarousel from "embla-carousel-react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 
 interface ProjectProps {
   title: string;
+  subtitle?: string;
   technologies: string[];
   description: string;
   href: string;
-  link: string;
-  images: string[]; // Array of image URLs
+  link?: string;
+  images: string[];
+  liveSite: boolean;
 }
 
 const Project = ({
   title,
+  subtitle,
   technologies,
   description,
   href,
   link,
-  images,
+  images = [],
+  liveSite, // Destructure the new prop
 }: ProjectProps) => {
-  // Initialize Embla Carousel
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [topCardIndex, setTopCardIndex] = useState(0);
+  const numImages = images.length;
 
-  // Scroll to the next slide
-  const scrollNext = useCallback(() => {
-    if (emblaApi) emblaApi.scrollNext();
-  }, [emblaApi]);
+  const showNextImage = useCallback(() => {
+    setTopCardIndex((prevIndex) => (prevIndex + 1) % (numImages || 1));
+  }, [numImages]);
 
-  // Scroll to the previous slide
-  const scrollPrev = useCallback(() => {
-    if (emblaApi) emblaApi.scrollPrev();
-  }, [emblaApi]);
+  const canCycle = numImages > 1;
+  const cardsInStack = Math.min(numImages, 3);
+
+  // Calculate indices and image sources (same as before)
+  const bottomImageIndex =
+    images.length > 0 ? topCardIndex % images.length : -1;
+  const topImageIndex =
+    images.length > 0 ? (topCardIndex + 1) % images.length : -1;
+  const bottomImageSrc =
+    bottomImageIndex !== -1 ? images[bottomImageIndex] : "/placeholder.png";
+  const topImageSrc =
+    topImageIndex !== -1 ? images[topImageIndex] : "/placeholder.png";
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 max-w-[1200px] mx-auto mb-20">
-      {/* Project Details Section */}
-      <div className="flex flex-col gap-6 lg:w-1/2">
-        <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          {title}
-        </h3>
-        <div className="flex flex-wrap gap-2">
-          {technologies.map((tech, index) => (
-            <span
-              key={index}
-              className="bg-slate-700 dark:bg-slate-500 text-white px-3 py-1 text-sm rounded-full"
-            >
-              {tech}
-            </span>
-          ))}
+    <Card className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch max-w-6xl mx-auto mb-16 md:mb-24 overflow-hidden shadow-xl border">
+      <div className="flex flex-col p-6 md:p-8 lg:p-10 order-2 lg:order-1">
+        <div className="mb-6">
+          <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-1.5">
+            {title}
+          </h3>
+          {subtitle && (
+            <p className="text-lg text-muted-foreground">{subtitle}</p>
+          )}
         </div>
-        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-          {description}
-        </p>
-        <div className="flex items-center gap-4">
-          <Link
-            href={href}
-            className={cn(buttonVariants(), "w-fit text-center")} // Removed flex-1
-          >
-            View Project
-          </Link>
-          <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              buttonVariants(),
-              "w-fit text-center bg-gradient-to-r from-blue-600 to-red-500 hover:from-blue-500 hover:to-red-400 text-white"
-            )}
-          >
-            Visit Site
-          </a>
-        </div>
-      </div>
 
-      {/* Embla Carousel Section */}
-      <div className="relative lg:w-1/2 min-w-[300px] max-w-[600px] w-[90vw] min-h-[400px] max-h-[500px] h-3/4">
-        <div
-          className="embla overflow-hidden rounded-lg shadow-lg"
-          ref={emblaRef}
-        >
-          <div className="embla__container flex">
-            {images.map((image, index) => (
-              <div className="embla__slide flex-[0_0_100%] min-w-0" key={index}>
-                <img
-                  src={image}
-                  alt={`${title} screenshot ${index + 1}`}
-                  className="w-full h-full max-h-[500px] object-cover rounded-lg"
-                  loading="lazy"
-                />
-              </div>
+        <div className="flex-grow flex flex-col gap-4 mb-6">
+          <div className="flex flex-wrap gap-2">
+            {technologies.map((tech, index) => (
+              <Badge key={index} variant="secondary" className="text-xs">
+                {tech}
+              </Badge>
             ))}
           </div>
+          <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
+            {description}
+          </p>
         </div>
 
-        {/* Carousel Buttons */}
-        <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4">
-          <button
-            onClick={scrollPrev}
-            className="p-2 bg-white/80 rounded-full shadow-md hover:bg-white/90 transition-colors"
+        <div className="flex flex-col sm:flex-row items-center gap-3 mt-auto pt-6 border-t">
+          <Link
+            href={href}
+            className={cn(
+              buttonVariants({ variant: "default" }),
+              "w-full sm:w-auto gap-2"
+            )}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 19.5L8.25 12l7.5-7.5"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={scrollNext}
-            className="p-2 bg-white/80 rounded-full shadow-md hover:bg-white/90 transition-colors"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.25 4.5l7.5 7.5-7.5 7.5"
-              />
-            </svg>
-          </button>
+            View Details <Eye size={16} />
+          </Link>
+
+          {liveSite &&
+            link && ( // Check BOTH conditions now
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cn(
+                  buttonVariants({ variant: "outline" }),
+                  "w-full sm:w-auto gap-2"
+                )}
+              >
+                Visit Live Site <ExternalLink size={16} />
+              </a>
+            )}
         </div>
       </div>
-    </div>
+
+      {/* --- Right Column (Image Area - UNCHANGED) --- */}
+      <div className="relative overflow-hidden min-h-[350px] sm:min-h-[450px] lg:min-h-full bg-muted/50 order-1 lg:order-2 p-6 sm:p-8 flex items-center justify-center">
+        <div className="relative w-full h-full max-w-md aspect-[4/3]">
+          <AnimatePresence initial={false}>
+            {[...Array(cardsInStack)].map((_, i) => {
+              const imageIndex =
+                (topCardIndex + cardsInStack - 1 - i + numImages) % numImages;
+              const depth = (imageIndex - topCardIndex + numImages) % numImages;
+              const offsetValue = 16;
+              const scale = 1 - depth * 0.04;
+              const translateX = -depth * offsetValue;
+              const translateY = depth * offsetValue;
+              const zIndex = 30 - depth;
+              const imageSrc = images[imageIndex] || "/placeholder.png";
+
+              return (
+                <motion.div
+                  key={imageIndex}
+                  className={cn(
+                    "absolute inset-0 w-full h-full cursor-pointer",
+                    "p-1.5 sm:p-2 bg-white dark:bg-neutral-800 rounded-lg shadow-md border border-neutral-200 dark:border-neutral-700"
+                  )}
+                  onClick={showNextImage}
+                  style={{ zIndex }}
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  animate={{
+                    opacity: 1,
+                    scale: scale,
+                    x: translateX,
+                    y: translateY,
+                    transition: { type: "spring", stiffness: 260, damping: 20 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 0.8,
+                    x: -150,
+                    y: 30,
+                    transition: { duration: 0.35, ease: "easeOut" },
+                  }}
+                >
+                  <div className="relative w-full h-full overflow-hidden rounded-md">
+                    <Image
+                      src={imageSrc}
+                      alt={`${title} screenshot ${imageIndex + 1}`}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-md"
+                      priority={imageIndex === topCardIndex}
+                    />
+                  </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+          {canCycle && (
+            <Button
+              variant="default"
+              size="icon"
+              className={cn(
+                "absolute bottom-4 right-4 rounded-full z-40 shadow-xl w-10 h-10",
+                "bg-primary text-primary-foreground hover:bg-primary/90"
+              )}
+              onClick={(e) => {
+                e.stopPropagation();
+                showNextImage();
+              }}
+              aria-label="Next image"
+            >
+              <ArrowRight className="h-5 w-5" />
+            </Button>
+          )}
+        </div>
+      </div>
+    </Card>
   );
 };
 

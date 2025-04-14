@@ -1,18 +1,10 @@
 {
-  "summary": {
-    "content": {
-      "about": "Nguyen Nguyen is a passionate full-stack developer with a love for technology, creativity, and learning. With a 'brute force' approach to coding, he enjoys tackling challenges and expanding his skills. Beyond tech, he finds joy in cooking and nature walks.",
-      "skills": "Proficient in TypeScript, JavaScript, and Python, Nguyen specializes in full-stack development using React, Next.js, FastAPI, and PostgreSQL. He is experienced with tools like Docker, Kubernetes, and AI frameworks such as LangChain.",
-      "projects": "Nguyen has developed a range of projects, including Versa AI for PDF-based conversations, an AI-powered e-commerce store, a microservices marketplace, and Finance Kaiju, a personal finance tracker.",
-      "contact": "Nguyen is open to connections via email or text. He prefers texting over calls from unknown numbers and has a chatbot available for inquiries."
-    }
-  },
   "about": {
     "content": {
       "name": "Nguyen Nguyen",
       "title": "Passionate Full-Stack Developer | Aspiring Creator | Animal Enthusiast 🐾",
       "introduction": "Hello! I'm Nguyen Nguyen, a technology enthusiast with a passion for creating intuitive and engaging web applications 🌐. My journey began at a young age when I immersed myself in video games 🎮, sparking my curiosity about computers 💻 and the web. Over time, I've honed my skills 👨‍💻 and built several projects from scratch 🔨. Let me share a bit more about my background and aspirations 🚀.",
-      "note": "I'm Vietnamese, I will be 23 years old on July 2025, I am a U.S. citizen. I am currently living in California, and I am looking for a full-time job as a software engineer. I am also open to internships and part-time jobs. Please feel free to reach out if you have any opportunities or questions! ",
+      "note": "Asian, 23 years old, U.S. citizen. I am currently living in California, and I am looking for a full-time job as a software engineer. I am also open to internships and part-time jobs. Not a protected veteran or have any disability. Please feel free to reach out if you have any opportunities or questions! ",
       "learning_journey": "I'm an avid learner, always open to new challenges. Starting with front-end development, I gradually expanded my skills to become a full-stack developer. My goal is to create software and applications that are useful to others 🌐.",
       "coding_philosophy": "I believe in the 'brute force' approach: tackling challenges head-on until I truly understand them. Once I grasp a concept, it becomes a lifelong skill 💡.",
       "beyond_technology": {
@@ -67,6 +59,10 @@
   "projects": {
     "content": [
       {
+        "title": "Chatbot UI Demo - Lead Generation & Customer Service Chatbot",
+        "description": "Demonstrates lead generation & customer service AI chatbots using LangGraph, multiple AI models (OpenAI/Gemini), state persistence (Redis/Postgres), and cloud deployment (Docker/Railway)."
+      },
+      {
         "title": "Versa AI - Conversation with PDFs",
         "description": "A platform that lets you have a conversation with your PDFs. It uses AI to understand the content of the PDF and lets you ask questions about it. It is built to be scalable and reliable."
       },
@@ -101,5 +97,40 @@
       "chatbot_note": "If you have any other questions, feel free to ask the chatbot in the bottom right corner. I trained it to answer questions about me!",
       "note": "Please text me as I don't take phone calls from unknown numbers. We can schedule a call after texting!"
     }
+  },
+  "education": {
+    "content": [
+      {
+        "institution": "Orange Coast College",
+        "focus": "Computer Science Coursework",
+        "duration": "2022 - 2024",
+        "notes": "Completed foundational and advanced coursework in computer science and web development."
+      },
+      {
+        "institution": "Bolsa Grande High School",
+        "focus": "High School Diploma",
+        "duration": "Graduated",
+        "notes": null
+      }
+    ]
+  },
+  "experience": {
+    "content": [
+      {
+        "role": "Freelance Full-Stack Developer",
+        "company": "Upwork / Independent",
+        "duration": "Approx. 2023 - Present (2+ Years)",
+        "description": "Developed and maintained web applications for various clients, focusing on frontend (React, Next.js) and backend (Node.js, Python) development, database integration, and API creation. Managed project requirements and client communication independently.",
+        "technologies": [
+          "React",
+          "Next.js",
+          "Node.js",
+          "TypeScript",
+          "Python",
+          "Databases",
+          "APIs"
+        ]
+      }
+    ]
   }
 }

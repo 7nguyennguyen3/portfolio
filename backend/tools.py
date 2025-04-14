@@ -1,110 +1,177 @@
 import json
-from langchain.tools import Tool, tool
+from langchain.tools import tool
+
 
 @tool
 def get_info(arguments: str):
     """
     Returns information based on the provided arguments.
-    The input should be a comma-separated string of arguments.
-    Supported arguments: 'contact', 'about', 'projects', 'skills'.
+    Supported arguments: 'contact', 'about', 'projects', 'skills', 'education', 'experience'.
+    Supported single and multiple arguments separated by commas.
     """
     try:
-        # Split the input string into a list of arguments
-        args_list = [arg.strip() for arg in arguments.split(",")]
+        args_list = [arg.strip().lower() for arg in arguments.split(",")]
 
-        # Load the JSON file
-        with open("off_info.json", "r", encoding="utf-8") as file:
+        with open("./portfolio/off_info.json", "r", encoding="utf-8") as file:
             data = json.load(file)
 
         result = []
-
-        # Process each argument
+        processed_args = set()
         for arg in args_list:
-            if arg == "contact":
-                contact_info = data["contact"]["content"]
-                result.append(
-                    f"Contact Information:\n"
-                    f"Email: {contact_info['email']}\n"
-                    f"Phone: {contact_info['phone']}\n"
-                    f"Note: {contact_info['note']}\n"
-                    f"Chatbot Note: {contact_info['chatbot_note']}"
-                )
-            elif arg == "about":
-                about_info = data["about"]["content"]
-                result.append(
-                    f"About Me:\n"
-                    f"Name: {about_info['name']}\n"
-                    f"Title: {about_info['title']}\n"
-                    f"Introduction: {about_info['introduction']}\n"
-                    f"Special Note: {about_info['note']}\n"
-                    f"Learning Journey: {about_info['learning_journey']}\n"
-                    f"Coding Philosophy: {about_info['coding_philosophy']}\n"
-                    f"Current Endeavors: {about_info['current_endeavors']}\n"
-                    f"Professional Goals: {about_info['professional_goals']}\n"
-                    f"Beyond Technology:\n"
-                    f"- Learning to Cook: {about_info['beyond_technology']['content']['learning_to_cook']}\n"
-                    f"- Walking in Nature: {about_info['beyond_technology']['content']['walking_in_nature']}"
-                )
-            elif arg == "projects":
-                projects_info = data["projects"]["content"]
-                projects_list = []
-                for project in projects_info:
-                    projects_list.append(
-                        f"Title: {project['title']}\n"
-                        f"Description: {project['description']}\n"
-                    )
-                result.append(
-                    f"Projects:\n" + "\n".join(projects_list)
-                )
-            elif arg == "skills":
-                skills_info = data["skills"]["content"]
-                result.append(
-                    f"Skills:\n"
-                    f"Languages: {', '.join(skills_info['languages'])}\n"
-                    f"Front-End: {', '.join(skills_info['front_end'])}\n"
-                    f"Back-End: {', '.join(skills_info['back_end'])}\n"
-                    f"Databases: {', '.join(skills_info['databases'])}\n"
-                    f"Tools and Libraries: {', '.join(skills_info['tools_and_libraries'])}\n"
-                    f"Other: {', '.join(skills_info['other'])}"
-                )
-            elif arg == "summary":
-                summary_info = {
-                    "about": "Nguyen Nguyen is a passionate full-stack developer with a love for technology, creativity, and learning. With a 'brute force' approach to coding, he enjoys tackling challenges and expanding his skills. Beyond tech, he finds joy in cooking and nature walks.",
-                    "skills": "Proficient in TypeScript, JavaScript, and Python, Nguyen specializes in full-stack development using React, Next.js, FastAPI, and PostgreSQL. He is experienced with tools like Docker, Kubernetes, and AI frameworks such as LangChain.",
-                    "projects": "Nguyen has developed a range of projects, including Versa AI for PDF-based conversations, an AI-powered e-commerce store, a microservices marketplace, and Finance Kaiju, a personal finance tracker.",
-                    "contact": "Nguyen is open to connections via email or text. He prefers texting over calls from unknown numbers and has a chatbot available for inquiries."
-                }
-                result.append(
-                    f"Summary:\n"
-                    f"About: {summary_info['about']}\n"
-                    f"Skills: {summary_info['skills']}\n"
-                    f"Projects: {summary_info['projects']}\n"
-                    f"Contact: {summary_info['contact']}"
-                )
-            else:
-                result.append(f"❌ Unsupported argument: {arg}")
+            if arg in processed_args:
+                continue
 
-        return "\n\n".join(result)
+            if arg == "contact":
+                contact_info = data.get("contact", {}).get("content", {})
+                if contact_info:
+                    result.append(
+                        f"--- Contact Information ---\n"
+                        f"Email: {contact_info.get('email', 'N/A')}\n"
+                        f"Phone: {contact_info.get('phone', 'N/A')}\n"
+                        f"Note: {contact_info.get('note', '')}\n"
+                        f"Chatbot Note: {contact_info.get('chatbot_note', '')}"
+                    )
+                else:
+                    result.append("Contact information is not available.")
+                processed_args.add(arg)
+
+            elif arg == "about":
+                about_info = data.get("about", {}).get("content", {})
+                if about_info:
+                    beyond_tech = about_info.get("beyond_technology", {}).get(
+                        "content", {}
+                    )
+                    result.append(
+                        f"--- About Me ---\n"
+                        f"Name: {about_info.get('name', 'N/A')}\n"
+                        f"Title: {about_info.get('title', 'N/A')}\n"
+                        f"Introduction: {about_info.get('introduction', 'N/A')}\n"
+                        f"Note: {about_info.get('note', 'N/A')}\n"
+                        f"Learning Journey: {about_info.get('learning_journey', 'N/A')}\n"
+                        f"Coding Philosophy: {about_info.get('coding_philosophy', 'N/A')}\n"
+                        f"Current Endeavors: {about_info.get('current_endeavors', 'N/A')}\n"
+                        f"Professional Goals: {about_info.get('professional_goals', 'N/A')}\n"
+                        f"Beyond Technology:\n"
+                        f"- Learning to Cook: {beyond_tech.get('learning_to_cook', 'N/A')}\n"
+                        f"- Walking in Nature: {beyond_tech.get('walking_in_nature', 'N/A')}"
+                    )
+                else:
+                    result.append("About information is not available.")
+                processed_args.add(arg)
+
+            elif arg == "projects":
+                projects_content = data.get("projects", {}).get("content", [])
+                if projects_content:
+                    projects_list = []
+                    for project in projects_content:
+                        projects_list.append(
+                            f"- Title: {project.get('title', 'N/A')}\n"
+                            f"  Description: {project.get('description', 'N/A')}"
+                        )
+                    result.append(
+                        f"--- Project Summaries ---\n" + "\n".join(projects_list)
+                    )
+                else:
+                    result.append("Project summaries are not available.")
+                processed_args.add(arg)
+
+            elif arg == "skills":
+                skills_info = data.get("skills", {}).get("content", {})
+                if skills_info:
+                    skill_lines = ["--- Skills Overview ---"]
+                    # Dynamically list skill categories found in JSON
+                    for category, skills_list in skills_info.items():
+                        if isinstance(skills_list, list):
+                            # Capitalize category name for display
+                            cat_name = category.replace("_", " ").title()
+                            skill_lines.append(f"{cat_name}: {', '.join(skills_list)}")
+                    result.append("\n".join(skill_lines))
+                else:
+                    result.append("Skills information is not available.")
+                processed_args.add(arg)
+
+            # --- NEW: Handle Education ---
+            elif arg == "education":
+                education_list = data.get("education", {}).get("content", [])
+                if education_list:
+                    edu_lines = ["--- Education ---"]
+                    for entry in education_list:
+                        edu_lines.append(
+                            f"- Institution: {entry.get('institution', 'N/A')}\n"
+                            f"  Focus: {entry.get('focus', 'N/A')}\n"
+                            f"  Duration: {entry.get('duration', 'N/A')}"
+                            + (
+                                f"\n  Notes: {entry['notes']}"
+                                if entry.get("notes")
+                                else ""
+                            )  # Add notes only if they exist
+                        )
+                    result.append("\n".join(edu_lines))
+                else:
+                    result.append("Education information is not available.")
+                processed_args.add(arg)
+
+            # --- NEW: Handle Experience ---
+            elif arg == "experience":
+                experience_list = data.get("experience", {}).get("content", [])
+                if experience_list:
+                    exp_lines = ["--- Experience ---"]
+                    for entry in experience_list:
+                        exp_lines.append(
+                            f"- Role: {entry.get('role', 'N/A')} at {entry.get('company', 'N/A')}\n"
+                            f"  Duration: {entry.get('duration', 'N/A')}\n"
+                            f"  Description: {entry.get('description', 'N/A')}"
+                            + (
+                                f"\n  Key Technologies: {', '.join(entry['technologies'])}"
+                                if entry.get("technologies")
+                                else ""
+                            )  # Add tech only if it exists
+                        )
+                    result.append("\n".join(exp_lines))
+                else:
+                    # Tailor message based on known freelance work
+                    result.append(
+                        "Experience primarily includes freelance work (details below if available elsewhere or upon request). No formal company roles listed."
+                    )
+                processed_args.add(arg)
+            else:
+                result.append(
+                    f"❌ Information category '{arg}' is not supported. Please use 'contact', 'about', 'projects', 'skills', 'education', 'experience', or 'summary'."
+                )
+                processed_args.add(
+                    arg
+                )  # Add even if unsupported to avoid repeating error
+
+        return (
+            "\n\n".join(result)
+            if result
+            else "No information found for the requested arguments."
+        )
 
     except FileNotFoundError:
-        return "❌ Error: The data.json file was not found."
+        return (
+            "❌ Error: The 'off_info.json' file was not found at the expected location."
+        )
     except json.JSONDecodeError:
-        return "❌ Error: The data.json file is malformed."
+        return "❌ Error: The 'off_info.json' file is not valid JSON."
     except KeyError as e:
-        return f"❌ Error: Missing key in JSON data - {str(e)}"
+        return f"❌ Error: Missing expected key structure in JSON data - {str(e)}"
+
 
 @tool
 def get_project_details(project_keys: str):
     """
     Returns details for the specified projects.
-    The input should be a comma-separated string of project keys.
+    Supported project keys are: "chatbot-ui-demo", 'versa-ai', 'microservices', 'finance-kaiju-mobile',
+    'petalsoft', 'hit-anime', 'finance-kaiju'.
+    Supported single and multiple arguments separated by commas.
     """
     try:
         # Split the input string into a list of project keys
         keys_list = [key.strip() for key in project_keys.split(",")]
 
         # Load the JSON file
-        with open("off_project.json", "r", encoding="utf-8") as file:
+        with open("./portfolio/off_project.json", "r", encoding="utf-8") as file:
             data = json.load(file)
 
         projects = data["section"]["projects"]  # Access the nested projects dictionary
@@ -114,17 +181,17 @@ def get_project_details(project_keys: str):
         for project_key in keys_list:
             # Convert the project key to lowercase (for consistency)
             project_key = project_key.lower()
-            
+
             # Check if the project exists in the dictionary
             if project_key in projects:
                 project = projects[project_key]
                 # Format the project details
                 project_details = (
                     f"Project Details for {project['title']}\n"
-                    f"Link: {project['link']}\n"
+                    f"Live Site: {project['liveSite']}\n"
                     f"Technologies: {', '.join(project['technologies'])}\n"
                     f"Description: {project['description']}\n"
-                    f"More Details: {project['href']}"
+                    f"More Details at Project Site: {project['href']}\n"
                 )
                 result.append(project_details)
             else:
@@ -138,28 +205,3 @@ def get_project_details(project_keys: str):
         return "❌ Error: The off_projects.json file is malformed."
     except KeyError as e:
         return f"❌ Error: Missing key in JSON data - {str(e)}"
-    
-tools = [
-    Tool(
-        name="GetInfo",
-        func=get_info,
-        description=(
-            "Useful for retrieving information about contact details, about me, projects, skills, and or a quick summary. "
-            "The input should be a comma-separated string of arguments. "
-            "Supported arguments: 'contact', 'about', 'projects', 'skills', 'summary'. "
-            "Example input: 'contact,about,projects,skills' or 'about'"
-        )
-    ),
-    Tool(
-        name="GetProjectDetails",
-        func=get_project_details,
-        description=(
-            "Useful for retrieving details about specific projects. "
-            "The input should be a comma-separated string of project keys. "
-            "Supported project keys are: "
-            "'versa-ai', 'microservices', 'finance-kaiju-mobile', "
-            "'petalsoft', 'hit-anime', 'finance-kaiju'. "
-            "Example input: 'versa-ai,petalsoft' or 'hit-anime'"
-        )
-    )
-]

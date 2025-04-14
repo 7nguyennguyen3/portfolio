@@ -1,9 +1,9 @@
 import { Recursive } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import { ThemeProvider } from "next-themes";
 import Chatbot from "@/components/Chatbot";
 import { constructMetadata } from "@/lib/utils";
+import { ThemeProvider } from "./ThemeProvider";
 
 const recursive = Recursive({ subsets: ["latin"] });
 

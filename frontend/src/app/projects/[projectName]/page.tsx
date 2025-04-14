@@ -1,5 +1,5 @@
 "use client";
-import { notFound, useParams, useSearchParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import ProjectDetail from "./ProjectDetail";
 
 const ProjectDetailPage = () => {
@@ -14,6 +14,7 @@ const ProjectDetailPage = () => {
       "hit-anime",
       "microservices",
       "finance-kaiju-mobile",
+      "chatbot-demo",
     ].includes(projectName) ? (
     <ProjectDetail projectName={projectName} />
   ) : (
