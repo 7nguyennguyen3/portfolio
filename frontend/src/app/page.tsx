@@ -1,3 +1,5 @@
+"use client"; // Required for Framer Motion animations on client-side
+
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Projects from "@/components/Projects";
 import { Boxes } from "@/components/ui/background-boxes";
@@ -24,8 +26,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { SKILL_CATEGORIES, SKILLS_DATA } from "./_global/variables";
+import { motion } from "framer-motion"; // Import motion from framer-motion
+import { SKILL_CATEGORIES, SKILLS_DATA } from "./_global/variables"; // Assuming these are correctly imported
 
+// --- Helper Function and Data Preparation (Keep as is) ---
 const groupSkillsForHybrid = (skillsData: typeof SKILLS_DATA) => {
   const grouped = {} as Record<string, string[]>;
   const categoryOrder = [
@@ -67,31 +71,82 @@ const categoryIcons: Record<string, React.ElementType<LucideProps>> = {
   "DevOps & Tools": TerminalSquare,
 };
 
+// --- Framer Motion Variants ---
+
+// Variants for staggering skill badges
+const skillsContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05, // Delay between each badge animation
+    },
+  },
+};
+
+const skillItemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0 },
+};
+
+// Variants for sections animating into view
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeInOut",
+    },
+  },
+};
+
+// --- Main Component ---
 export default function Home() {
   return (
     <div>
-      <section
+      {/* --- Hero Section --- */}
+      <motion.section // Use motion.section for scroll animations
         id="hero"
         className="relative flex items-center justify-center w-full
-        min-h-[80vh] md:min-h-[70vh] overflow-hidden p-4 bg-black text-white"
+         min-h-[80vh] md:min-h-[70vh] overflow-hidden p-4 bg-black text-white"
+        // No initial/whileInView here, animate elements individually on load
       >
         <div className="absolute inset-0 z-0">
           <Boxes />
         </div>
         <MaxWidthWrapper className="relative z-10 flex flex-col items-center text-center gap-6 md:gap-8">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight max-w-4xl">
+          {/* Animate Hero Elements on Load */}
+          <motion.h1
+            className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight max-w-4xl"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             👋 Hi, I&apos;m Nguyen
             <br />
             <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
               Full Stack Developer
             </span>
-          </h1>
-          <p className="mt-2 text-lg md:text-xl text-neutral-300 max-w-xl">
+          </motion.h1>
+          <motion.p
+            className="mt-2 text-lg md:text-xl text-neutral-300 max-w-xl"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
             🚀 Passionate about exploring new technologies and building
             innovative applications. Let&apos;s connect and create something
             amazing together!
-          </p>
-          <div className="flex items-center justify-center gap-3 mt-4">
+          </motion.p>
+          <motion.div
+            className="flex items-center justify-center gap-3 mt-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            {/* Social Links */}
             <a
               href="https://github.com/7nguyennguyen3"
               target="_blank"
@@ -136,8 +191,13 @@ export default function Home() {
             >
               <MessageSquare size={24} />
             </Link>
-          </div>
-          <div className="mt-6 md:mt-8">
+          </motion.div>
+          <motion.div
+            className="mt-6 md:mt-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             <Link
               href="#projects"
               className={cn(
@@ -147,35 +207,34 @@ export default function Home() {
             >
               View My Work <ArrowDown size={20} />
             </Link>
-          </div>
+          </motion.div>
         </MaxWidthWrapper>
-      </section>
+      </motion.section>
 
-      <section
+      {/* --- About Me Section --- */}
+      <motion.section // Use motion.section for scroll animations
         id="about-me"
         className="py-16 md:py-24 bg-background dark:bg-slate-900"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is visible
       >
         <MaxWidthWrapper>
-          {/* Centered content container */}
           <div className="flex flex-col items-center text-center gap-6">
-            {/* Smaller, Rounded Image */}
             <div className="relative w-40 h-40 overflow-hidden rounded-full shadow-lg border-2 border-primary/10 mb-4">
               <Image
-                src="/profile-pic-resized.png" // Ensure this path is correct
+                src="/profile-pic-resized.png"
                 alt="Nguyen - Profile Picture"
-                layout="fill" // Use fill to adapt to container
+                layout="fill"
                 objectFit="cover"
                 priority
               />
             </div>
-
-            {/* Text Content Container (Constrained Width) */}
             <div className="max-w-2xl flex flex-col items-center gap-4">
               <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
                 A Bit About Me
               </h2>
-
-              {/* Revised Introduction / Core Statement */}
               <p className="text-muted-foreground leading-relaxed mt-2">
                 As a Full-Stack Developer, I focus on building practical web
                 solutions. An early interest in computers, beginning with games
@@ -183,11 +242,9 @@ export default function Home() {
                 creating functional, user-friendly applications, and I make it a
                 point to keep learning new technologies.
               </p>
-
-              {/* Link to full bio remains the same, text slightly adjusted */}
               <div className="mt-4">
                 <Link
-                  href="/about" // Link to the full detailed about page
+                  href="/about"
                   className={cn(
                     buttonVariants({ variant: "link" }),
                     "p-0 h-auto text-primary hover:text-primary/90 inline-block"
@@ -199,9 +256,17 @@ export default function Home() {
             </div>
           </div>
         </MaxWidthWrapper>
-      </section>
+      </motion.section>
 
-      <section id="skills" className="py-16 md:py-24 bg-muted/30">
+      {/* --- Skills Section --- */}
+      <motion.section // Use motion.section for scroll animations
+        id="skills"
+        className="py-16 md:py-24 bg-muted/30"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is visible
+      >
         <MaxWidthWrapper>
           <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10 md:mb-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Technical Skills
@@ -237,51 +302,67 @@ export default function Home() {
               <TabsContent
                 key={type}
                 value={type}
-                // Removed min-height, added focus style for accessibility
-                className="mt-0 rounded-lg border bg-card p-6 pb-8 shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                tabIndex={-1} // Make content focusable if needed, though usually not required
+                className="mt-0 rounded-lg border bg-card p-6 pb-8 shadow 
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                tabIndex={-1}
               >
-                {/* Badge Grid - More columns on larger screens */}
-                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+                <motion.div
+                  className="flex items-center justify-center flex-wrap gap-3 md:gap-4"
+                  variants={skillsContainerVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
                   {skills.map((skill) => (
-                    <Badge
-                      key={skill}
-                      variant="outline" // Using outline as base
-                      className={cn(
-                        "cursor-default whitespace-nowrap rounded-md border", // Use md rounding
-                        "px-3 py-1.5 text-sm", // Adjusted padding/text size
-                        // Refined Colors: Slightly more saturated border/text on base
-                        "border-border bg-background text-foreground",
-                        // Refined Hover: Clearer background/border change
-                        "transition-colors duration-150 ease-in-out",
-                        "hover:bg-accent hover:border-accent-foreground/50 hover:text-accent-foreground",
-                        // Centering text within badge
-                        "flex items-center justify-center text-center"
-                      )}
-                    >
-                      {skill}
-                    </Badge>
+                    <motion.div key={skill} variants={skillItemVariants}>
+                      <Badge
+                        variant="outline"
+                        className={cn(
+                          "cursor-default whitespace-nowrap rounded-md border",
+                          "px-3 py-1.5 text-sm",
+                          "border-border bg-background text-foreground",
+                          "transition-colors duration-150 ease-in-out",
+                          "hover:bg-accent hover:border-accent-foreground/50 hover:text-accent-foreground",
+                          "flex items-center justify-center text-center"
+                        )}
+                      >
+                        {skill}
+                      </Badge>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </TabsContent>
             ))}
           </Tabs>
         </MaxWidthWrapper>
-      </section>
+      </motion.section>
 
-      <section
+      {/* --- Projects Section --- */}
+      <motion.section // Use motion.section for scroll animations
         id="projects"
         className="py-16 md:py-24 bg-background dark:bg-slate-900"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is visible
       >
         <MaxWidthWrapper>
           <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10 md:mb-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Featured Projects
           </h2>
+          {/* Assuming Projects component handles its own internal animations if needed */}
           <Projects />
         </MaxWidthWrapper>
-      </section>
+      </motion.section>
 
-      <section id="contact" className="py-16 md:py-24 bg-muted/30">
+      {/* --- Contact Section --- */}
+      <motion.section // Use motion.section for scroll animations
+        id="contact"
+        className="py-16 md:py-24 bg-muted/30"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is visible
+      >
         <MaxWidthWrapper className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Let&apos;s Have a Chat!
@@ -315,7 +396,7 @@ export default function Home() {
             Get In Touch <Coffee size={20} />
           </Link>
         </MaxWidthWrapper>
-      </section>
+      </motion.section>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import Project from "@/components/Project"; // Your Project component
 import { Button } from "@/components/ui/button"; // Import Button
 import { ChevronDown, ChevronUp } from "lucide-react"; // Icons
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
 
 // Define the structure for project data (matches ProjectProps)
 interface ProjectData {
@@ -94,7 +95,6 @@ const allProjectsData: ProjectData[] = [
     images: ["/petalsoft-1.webp", "/petalsoft-7.webp", "/petalsoft-3.webp"],
     liveSite: true,
   },
-  // --- Add the rest of your projects here ---
   {
     // 4. Microservices
     title: "Microservices",
@@ -185,6 +185,35 @@ const allProjectsData: ProjectData[] = [
   },
 ];
 
+// --- Framer Motion Variants for Project Items ---
+const projectVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+  exit: {
+    // Define exit animation if needed, e.g., when showing less
+    opacity: 0,
+    y: -30,
+    transition: {
+      duration: 0.3,
+      ease: "easeIn",
+    },
+  },
+};
+
+// Variants for the buttons
+const buttonVariantsMotion = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.9 },
+};
+
 const Projects = () => {
   const INITIAL_COUNT = 3;
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
@@ -204,36 +233,72 @@ const Projects = () => {
 
   return (
     <div className="flex flex-col items-center gap-10 md:gap-16 lg:gap-20">
-      {/* Map over the projects to show */}
-      {projectsToShow.map((project, index) => (
-        <Project key={project.href || project.title || index} {...project} />
-      ))}
-
-      {/* Conditional Buttons Container */}
-      <div className="mt-8 text-center">
-        {canShowMore && (
-          <Button
-            variant="default" // Changed variant for visibility
-            size="lg"
-            onClick={showMoreProjects}
-            className="gap-2 shadow hover:shadow-md transition-shadow" // Added shadow
+      {/* Use AnimatePresence to handle animations when items are added/removed */}
+      <AnimatePresence initial={false}>
+        {projectsToShow.map((project, index) => (
+          // Wrap each project in motion.div for animation
+          <motion.div
+            key={project.href || project.title || index} // Ensure key is stable
+            variants={projectVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit" // Use exit animation
+            layout // Enable layout animation for smooth reordering/resizing
+            className="w-full" // Ensure motion div takes full width if needed
           >
-            Show More Projects
-            <ChevronDown className="h-4 w-4" />
-          </Button>
-        )}
+            <Project {...project} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
 
-        {canShowLess && (
-          <Button
-            variant="default" // Changed variant for visibility
-            size="lg"
-            onClick={showLessProjects}
-            className="gap-2 shadow hover:shadow-md transition-shadow" // Added shadow
-          >
-            Show Less Projects
-            <ChevronUp className="h-4 w-4" />
-          </Button>
-        )}
+      {/* Conditional Buttons Container with Animation */}
+      <div className="mt-8 text-center h-12">
+        {" "}
+        {/* Added fixed height to prevent layout shift */}
+        <AnimatePresence mode="wait">
+          {" "}
+          {/* Use mode="wait" for smoother button transition */}
+          {canShowMore && (
+            <motion.div
+              key="show-more" // Unique key for AnimatePresence
+              variants={buttonVariantsMotion}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.2 }}
+            >
+              <Button
+                variant="default"
+                size="lg"
+                onClick={showMoreProjects}
+                className="gap-2 shadow hover:shadow-md transition-shadow"
+              >
+                Show More Projects
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </motion.div>
+          )}
+          {canShowLess && (
+            <motion.div
+              key="show-less" // Unique key for AnimatePresence
+              variants={buttonVariantsMotion}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              transition={{ duration: 0.2 }}
+            >
+              <Button
+                variant="default"
+                size="lg"
+                onClick={showLessProjects}
+                className="gap-2 shadow hover:shadow-md transition-shadow"
+              >
+                Show Less Projects
+                <ChevronUp className="h-4 w-4" />
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
