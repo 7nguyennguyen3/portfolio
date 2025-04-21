@@ -1,3 +1,5 @@
+"use client"; // Required for Framer Motion
+
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -13,7 +15,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
+import { motion } from "framer-motion"; // Import motion
 
+// --- Project Data (PROJECTS, Project type, Projects type) ---
+// (Keep your existing PROJECTS data and types here)
 type Project = {
   id: number;
   title: string;
@@ -38,7 +43,7 @@ const PROJECTS: Projects = {
   chatbotDemo: {
     githubLink: "https://github.com/7nguyennguyen3/chatbot-ui-demo", // Added from previous context
     id: 7, // Assign a unique ID
-    title: "Chatbot UI Demo",
+    title: "Chatbot Demo",
     quickSummary:
       "Demonstrates lead generation & customer service AI chatbots.", // Shortened summary
     type: "AI Chatbot Application", // Define project type
@@ -488,16 +493,65 @@ function isStringArray(value: any): value is string[] {
   );
 }
 
+function shuffleArray(array: Project[]): Project[] {
+  let currentIndex = array.length,
+    randomIndex;
+  const newArray = [...array]; // Create a copy to avoid mutating the original if needed elsewhere
+
+  // While there remain elements to shuffle.
+  while (currentIndex !== 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [newArray[currentIndex], newArray[randomIndex]] = [
+      newArray[randomIndex],
+      newArray[currentIndex],
+    ];
+  }
+
+  return newArray;
+}
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeInOut",
+    },
+  },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1, // Adjust delay between items
+    },
+  },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0 },
+};
+
+// --- Component ---
 const ProjectDetail = ({ projectName }: { projectName: string }) => {
   const camelCaseProjectName = kebabToCamel(projectName);
-  // Find project - use 'as keyof typeof PROJECTS' for type safety if needed
   const project: Project | undefined =
     PROJECTS[camelCaseProjectName as keyof typeof PROJECTS];
 
-  // Handle case where project is not found
+  // --- Not Found Handling (keep as is) ---
   if (!project) {
     return (
       <div className="py-20 min-h-[calc(100vh-10rem)] flex flex-col items-center justify-center text-center">
+        {/* ... Not found content ... */}
         <MaxWidthWrapper>
           <AlertTriangle className="w-16 h-16 text-red-500 mb-4" />
           <h1 className="text-3xl font-bold mb-2">Project Not Found</h1>
@@ -515,133 +569,213 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
     );
   }
 
-  // Filter other projects (ensure PROJECTS is treated as an object)
   const projectArray = Object.values(PROJECTS);
-  const otherProjects = projectArray
-    .filter((p) => p.id !== project.id)
-    .slice(0, 3); // Show max 3 other projects
-
+  const filteredProjects = projectArray.filter((p) => p.id !== project.id);
+  const shuffledProjects = shuffleArray(filteredProjects);
+  const otherProjects = shuffledProjects.slice(0, 3);
   const hasLiveSite = project.link && !project.noSite;
 
   return (
-    // Add top padding matching your navbar height (e.g., pt-16 for h-16 navbar)
-    <div className="pt-16 pb-20 md:pb-24 lg:pb-32">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="pt-16 pb-20 md:pb-24 lg:pb-32"
+    >
       <MaxWidthWrapper>
-        {/* Main layout grid: 1 column mobile, 3 columns desktop (2 for main, 1 for sidebar) */}
+        {/* Main layout grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           {/* --- Main Content Area --- */}
           <div className="lg:col-span-2 flex flex-col gap-8 md:gap-10">
             {/* Header */}
-            <div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3">
+            <motion.div // Animate header block
+              variants={fadeInUp}
+              initial="hidden"
+              animate="visible" // Animate immediately on load
+            >
+              <motion.h1
+                variants={fadeInUp} // Can apply same variant or specific one
+                className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3"
+              >
                 {project.title}
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground">
+              </motion.h1>
+              <motion.p
+                variants={fadeInUp} // Can apply same variant or specific one
+                transition={{ delay: 0.1 }} // Slight delay for summary
+                className="text-lg md:text-xl text-muted-foreground"
+              >
                 {project.quickSummary}
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
 
             {/* Main Project Image */}
-            <div className="relative overflow-hidden rounded-lg shadow-lg border aspect-video">
+            <motion.div // Animate image block
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }} // Animate when 10% visible
+              className="relative overflow-hidden rounded-lg shadow-lg border aspect-video"
+            >
               <Image
                 src={project.imageSrc}
-                alt={`${project.title} main screenshot`} // More specific alt text
-                layout="fill" // Use fill layout
-                objectFit="cover" // Cover tends to look better unless detail is lost
-                priority // Prioritize loading the main image
+                alt={`${project.title} main screenshot`}
+                layout="fill"
+                objectFit="cover"
+                priority
                 className="transition-transform duration-300 ease-in-out hover:scale-105"
               />
-            </div>
+            </motion.div>
 
             {/* Project Purpose */}
-            <section>
+            <motion.section // Animate section
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
               <h2 className="text-2xl font-semibold mb-4 border-b pb-2">
                 Project Purpose
               </h2>
-              <div className="prose prose-invert max-w-none text-muted-foreground">
-                {" "}
-                {/* Style rich text */}
+              {/* Animate the text container if desired */}
+              <motion.div
+                variants={fadeInUp}
+                className="prose prose-invert max-w-none text-muted-foreground"
+              >
                 {project.projectPurpose}
-              </div>
-            </section>
+              </motion.div>
+            </motion.section>
 
             {/* Web Stack Explanation */}
-            <section>
+            <motion.section // Animate section
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
               <h2 className="text-2xl font-semibold mb-4 border-b pb-2">
                 Web Stack & Explanation
               </h2>
-              <div className="flex flex-col gap-4">
+              {/* Stagger list items */}
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                className="flex flex-col gap-4"
+              >
                 {isStringArray(project.webStackExplanation) ? (
                   project.webStackExplanation.map((explanation, index) => (
-                    <div key={index} className="flex items-start gap-3">
+                    <motion.div // Animate each item
+                      key={index}
+                      variants={staggerItem}
+                      className="flex items-start gap-3"
+                    >
                       <Rocket className="w-5 h-5 text-blue-500 mt-1 flex-shrink-0" />
                       <p className="text-muted-foreground">{explanation}</p>
-                    </div>
+                    </motion.div>
                   ))
                 ) : (
-                  <div className="prose prose-invert max-w-none text-muted-foreground">
-                    {" "}
-                    {/* Style rich text */}
+                  // If it's rich text, animate the container
+                  <motion.div
+                    variants={staggerItem}
+                    className="prose prose-invert max-w-none text-muted-foreground"
+                  >
                     {project.webStackExplanation}
-                  </div>
+                  </motion.div>
                 )}
-              </div>
-            </section>
+              </motion.div>
+            </motion.section>
 
             {/* Features */}
-            <section>
+            <motion.section // Animate section
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
               <h2 className="text-2xl font-semibold mb-4 border-b pb-2">
                 Key Features
               </h2>
-              <ul className="space-y-3">
+              {/* Stagger list items */}
+              <motion.ul
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+                className="space-y-3"
+              >
                 {project.features.map((feature, index) => (
-                  <li key={index} className="flex items-center gap-3">
+                  <motion.li // Animate each list item
+                    key={index}
+                    variants={staggerItem}
+                    className="flex items-center gap-3"
+                  >
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
                     <span className="text-muted-foreground">{feature}</span>
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
-            </section>
+              </motion.ul>
+            </motion.section>
 
             {/* Image Gallery */}
             {project.images && project.images.length > 0 && (
-              <section>
+              <motion.section // Animate section
+                variants={fadeInUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+              >
                 <h2 className="text-2xl font-semibold mb-6 border-b pb-2">
                   Gallery
                 </h2>
-                {/* Responsive grid for gallery images */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                {/* Stagger grid items */}
+                <motion.div
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.1 }}
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6"
+                >
                   {project.images.map((image, index) => (
-                    <div
+                    <motion.div // Animate each gallery item container
                       key={index}
-                      className="relative aspect-video overflow-hidden rounded-lg shadow-md 
-                      border group"
+                      variants={staggerItem}
+                      className="relative aspect-video overflow-hidden rounded-lg shadow-md border group"
                     >
                       <img
                         src={image}
                         alt={`${project.title} screenshot ${index + 1}`}
                         loading="lazy"
-                        className="transition-transform duration-300 ease-in-out group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" // Ensure image fills container
                       />
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
-              </section>
+                </motion.div>
+              </motion.section>
             )}
           </div>{" "}
           {/* End Main Content Area */}
           {/* --- Sidebar Area --- */}
-          {/* Make sidebar sticky on larger screens */}
-          <aside className="lg:col-span-1 lg:sticky lg:top-24 h-fit flex flex-col gap-6 p-6 border rounded-lg shadow-sm bg-card">
-            {" "}
-            {/* Added basic styling */}
+          <motion.aside // Animate sidebar
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible" // May trigger based on when its *top* enters viewport
+            viewport={{ once: true, amount: 0.1 }}
+            className="lg:col-span-1 lg:sticky lg:top-24 h-fit flex flex-col gap-6 p-6 border rounded-lg shadow-sm bg-card"
+          >
             <h3 className="text-xl font-semibold border-b pb-3">
               Project Info
             </h3>
             {/* Call to Action Buttons */}
-            <div className="flex flex-col gap-3">
+            <motion.div // Stagger buttons/badges within sidebar if desired
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible" // Animate immediately as sidebar appears
+              className="flex flex-col gap-3"
+            >
               {hasLiveSite ? (
-                <a
+                <motion.a // Animate button
+                  variants={staggerItem}
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -652,14 +786,19 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
                 >
                   Visit Live Site
                   <ExternalLink size={18} />
-                </a>
+                </motion.a>
               ) : (
-                <Button size="lg" disabled className="w-full gap-2">
-                  No Site Available
-                </Button>
+                <motion.div variants={staggerItem}>
+                  {" "}
+                  {/* Wrap disabled Button */}
+                  <Button size="lg" disabled className="w-full gap-2">
+                    No Site Available
+                  </Button>
+                </motion.div>
               )}
               {project.githubLink && (
-                <a
+                <motion.a // Animate button
+                  variants={staggerItem}
                   href={project.githubLink}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -670,64 +809,97 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
                 >
                   View on GitHub
                   <Github size={18} />
-                </a>
+                </motion.a>
               )}
-            </div>
+            </motion.div>
+
             {/* Project Type */}
-            <div>
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
               <h4 className="font-semibold mb-1 text-sm text-muted-foreground uppercase tracking-wider">
                 Type
               </h4>
               <p>{project.type}</p>
-            </div>
+            </motion.div>
+
             {/* Tech Stack */}
-            <div>
+            <motion.div
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
               <h4 className="font-semibold mb-2 text-sm text-muted-foreground uppercase tracking-wider">
                 Tech Stack
               </h4>
-              <div className="flex flex-wrap gap-2">
+              {/* Stagger badges */}
+              <motion.div
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible" // Could also use animate="visible" if parent animates immediately
+                viewport={{ once: true, amount: 0.1 }}
+                className="flex flex-wrap gap-2"
+              >
                 {project.stack.map((tech, index) => (
-                  <Badge key={index} variant="secondary">
+                  <motion.div key={index} variants={staggerItem}>
                     {" "}
-                    {/* Use Badge component */}
-                    {tech}
-                  </Badge>
+                    {/* Wrap Badge */}
+                    <Badge variant="secondary">{tech}</Badge>
+                  </motion.div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
+
             {/* Other Projects */}
             {otherProjects.length > 0 && (
-              <div>
+              <motion.div
+                variants={fadeInUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+              >
                 <h4 className="font-semibold mb-3 text-sm text-muted-foreground uppercase tracking-wider border-t pt-4">
                   Other Projects
                 </h4>
-                <div className="flex flex-col gap-3">
+                {/* Stagger links */}
+                <motion.div
+                  variants={staggerContainer}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.1 }}
+                  className="flex flex-col gap-3"
+                >
                   {otherProjects.map((otherProject) => (
-                    <Link
-                      key={otherProject.id}
-                      // Assuming your URL structure is /projects/[kebab-case-title]
-                      // You might need a slug field or a function to generate this reliably
-                      href={`/projects/${otherProject.title
-                        .toLowerCase()
-                        .replace(/\s+/g, "-")}`}
-                      className="text-sm hover:text-blue-500 hover:underline flex items-center justify-between group"
-                    >
-                      {otherProject.title}
-                      <ArrowRight
-                        size={16}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                      />
-                    </Link>
+                    <motion.div key={otherProject.id} variants={staggerItem}>
+                      <Link
+                        // Assuming your URL structure is /projects/[kebab-case-title]
+                        // You might need a slug field or a function to generate this reliably
+                        href={`/projects/${otherProject.title
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`}
+                        className="text-sm hover:text-blue-500 hover:underline flex items-center justify-between group"
+                      >
+                        {otherProject.title}
+                        <ArrowRight
+                          size={16}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        />
+                      </Link>
+                    </motion.div>
                   ))}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             )}
-          </aside>{" "}
+          </motion.aside>{" "}
           {/* End Sidebar Area */}
         </div>{" "}
         {/* End Main Grid */}
       </MaxWidthWrapper>
-    </div>
+    </motion.div>
   );
 };
 

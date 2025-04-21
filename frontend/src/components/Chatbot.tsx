@@ -190,7 +190,7 @@ const ChatPopup = () => {
               onClick={() => setIsOpen(!isOpen)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className={`p-3 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-opacity duration-300 ease-in-out ${
+              className={`p-2 bg-primary text-primary-foreground rounded-full shadow-lg hover:bg-primary/90 transition-opacity duration-300 ease-in-out ${
                 isOpen ? "opacity-0 pointer-events-none" : "opacity-100"
               }`}
             >

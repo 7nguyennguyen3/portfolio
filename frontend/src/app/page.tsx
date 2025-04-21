@@ -4,11 +4,12 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Projects from "@/components/Projects";
 import { Boxes } from "@/components/ui/background-boxes";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import {
   ArrowDown,
+  ArrowUpCircle,
   BrainCircuit,
   Code2,
   Coffee,
@@ -25,8 +26,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { motion } from "framer-motion"; // Import motion from framer-motion
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion"; // Import motion from framer-motion
 import { SKILL_CATEGORIES, SKILLS_DATA } from "./_global/variables"; // Assuming these are correctly imported
 
 // --- Helper Function and Data Preparation (Keep as is) ---
@@ -104,14 +105,58 @@ const sectionVariants = {
 
 // --- Main Component ---
 export default function Home() {
+  const [showScrollTopButton, setShowScrollTopButton] = useState(false);
+
+  useEffect(() => {
+    const checkScrollTop = () => {
+      // Show button when scrolled down more than (e.g.) 400px
+      if (!showScrollTopButton && window.scrollY > 400) {
+        setShowScrollTopButton(true);
+      } else if (showScrollTopButton && window.scrollY <= 400) {
+        setShowScrollTopButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", checkScrollTop);
+    // Cleanup function to remove the listener when the component unmounts
+    return () => window.removeEventListener("scroll", checkScrollTop);
+  }, [showScrollTopButton]);
+
+  const scrollToView = ({ id }: { id: string }) => {
+    const heroElement = document.getElementById(id);
+    if (heroElement) {
+      heroElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
-    <div>
-      {/* --- Hero Section --- */}
-      <motion.section // Use motion.section for scroll animations
+    <div className="relative">
+      <AnimatePresence>
+        {showScrollTopButton && (
+          <motion.button
+            onClick={() => scrollToView({ id: "hero" })}
+            aria-label="Scroll to top"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            className={`p-[10px] bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 
+              transition-opacity duration-300 ease-in-out
+              fixed bottom-[72px] right-4 md:bottom-8 md:right-[84px] z-50`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          >
+            <ArrowUpCircle size={28} />
+          </motion.button>
+        )}
+      </AnimatePresence>
+      <motion.section
         id="hero"
         className="relative flex items-center justify-center w-full
          min-h-[80vh] md:min-h-[70vh] overflow-hidden p-4 bg-black text-white"
-        // No initial/whileInView here, animate elements individually on load
       >
         <div className="absolute inset-0 z-0">
           <Boxes />
@@ -198,15 +243,15 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <Link
-              href="#projects"
+            <Button
+              onClick={() => scrollToView({ id: "projects" })}
               className={cn(
                 buttonVariants({ size: "lg" }),
                 "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:opacity-90 gap-2"
               )}
             >
               View My Work <ArrowDown size={20} />
-            </Link>
+            </Button>
           </motion.div>
         </MaxWidthWrapper>
       </motion.section>

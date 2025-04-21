@@ -1,8 +1,8 @@
+import ChatPopup from "@/components/chat/ChatPopUp";
+import Navbar from "@/components/Navbar";
+import { constructMetadata } from "@/lib/utils";
 import { Recursive } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Chatbot from "@/components/Chatbot";
-import { constructMetadata } from "@/lib/utils";
 import { ThemeProvider } from "./ThemeProvider";
 
 const recursive = Recursive({ subsets: ["latin"] });
@@ -20,7 +20,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class">
           <Navbar />
           {children}
-          <Chatbot />
+          <ChatPopup />
         </ThemeProvider>
       </body>
     </html>
