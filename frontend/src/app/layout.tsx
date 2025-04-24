@@ -1,4 +1,4 @@
-import ChatPopup from "@/components/chat/ChatPopUp";
+import ChatPopup from "../components/chat/ChatPopUp";
 import Navbar from "@/components/Navbar";
 import { constructMetadata } from "@/lib/utils";
 import { Recursive } from "next/font/google";

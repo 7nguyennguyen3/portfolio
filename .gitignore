@@ -1,5 +1,6 @@
 # Frontend (Next.js)
 frontend/node_modules/
+frontend/development
 frontend/.next/
 frontend/.env
 frontend/.env.local

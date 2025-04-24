@@ -18,10 +18,8 @@ interface ProjectData {
   liveSite: boolean;
 }
 
-// Assume allProjectsData array is defined here as before...
 const allProjectsData: ProjectData[] = [
   {
-    // 1. Chatbot UI Demo
     link: "https://chatbot-ui-demo-three.vercel.app",
     description:
       "This project demonstrates two chatbots: one for lead generation and one for customer service. Built with Next.js, TypeScript, Tailwind CSS, Python, LangGraph, Redis, PostgreSQL, Google Gemini, Docker, and Railway.",
@@ -74,7 +72,6 @@ const allProjectsData: ProjectData[] = [
     liveSite: true,
   },
   {
-    // 3. PetalSoft
     link: "https://petalsoft.store",
     title: "PetalSoft",
     subtitle: "E-Commerce Store with AI Chatbot",
@@ -96,7 +93,6 @@ const allProjectsData: ProjectData[] = [
     liveSite: true,
   },
   {
-    // 4. Microservices
     title: "Microservices",
     subtitle: "Marketplace Architecture",
     technologies: [
@@ -122,7 +118,6 @@ const allProjectsData: ProjectData[] = [
     liveSite: false,
   },
   {
-    // 5. Finance Kaiju Mobile
     title: "Finance Kaiju Mobile",
     subtitle: "Personal Finance Tracker App",
     technologies: [
@@ -143,7 +138,6 @@ const allProjectsData: ProjectData[] = [
     liveSite: false,
   },
   {
-    // 6. Hit Anime
     link: "https://hit-anime.vercel.app",
     title: "Hit Anime",
     subtitle: "Quick Anime Search App",
@@ -161,7 +155,6 @@ const allProjectsData: ProjectData[] = [
     liveSite: true,
   },
   {
-    // 7. Finance Kaiju
     link: "https://finance-kaiju.vercel.app",
     title: "Finance Kaiju",
     subtitle: "Web-Based Finance Tracker",
@@ -185,7 +178,6 @@ const allProjectsData: ProjectData[] = [
   },
 ];
 
-// --- Framer Motion Variants for Project Items ---
 const projectVariants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -197,7 +189,6 @@ const projectVariants = {
     },
   },
   exit: {
-    // Define exit animation if needed, e.g., when showing less
     opacity: 0,
     y: -30,
     transition: {

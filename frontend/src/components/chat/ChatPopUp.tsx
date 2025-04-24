@@ -54,7 +54,8 @@ const ChatPopup: React.FC = () => {
 
   // --- Langchain Client Logic ---
   const createClient = useCallback(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:2024";
     if (!apiUrl) {
       console.error(
         "API URL is not configured. Please set NEXT_PUBLIC_API_BASE_URL."
@@ -165,7 +166,7 @@ const ChatPopup: React.FC = () => {
   }, [userId]);
 
   const threadStream = useStream<StreamStateType>({
-    apiUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+    apiUrl: process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:2024",
     assistantId: "portfolio",
     messagesKey: "messages",
     threadId: threadId ?? undefined,

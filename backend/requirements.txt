@@ -1,5 +1,7 @@
 langchain
+langgraph
 langchain-openai
+langchain_google_genai
 langchain-community
 langchain-pinecone
 langchainhub 

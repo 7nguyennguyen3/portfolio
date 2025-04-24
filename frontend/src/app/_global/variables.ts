@@ -26,7 +26,6 @@ export const SKILLS_DATA: SkillItem[] = [
   { skill: "Prisma", type: "Backend & Auth" }, // ORM related to backend logic
   { skill: "NextAuth", type: "Backend & Auth" },
   { skill: "Firebase Authentication", type: "Backend & Auth" },
-  { skill: "Kinde Authentication", type: "Backend & Auth" },
   { skill: "JWT Authentication", type: "Backend & Auth" },
   { skill: "Stripe", type: "Backend & Auth" }, // Payment processing
 
@@ -51,7 +50,6 @@ export const SKILLS_DATA: SkillItem[] = [
   { skill: "Nginx", type: "DevOps & Tools" },
   { skill: "Vercel", type: "DevOps & Tools" }, // Platform
   { skill: "Railway", type: "DevOps & Tools" }, // Platform
-  { skill: "Cloudinary", type: "DevOps & Tools" }, // Platform/Service
   { skill: "Expo", type: "DevOps & Tools" }, // Build Tool/Platform
   { skill: "React Email", type: "DevOps & Tools" }, // Tool/Service
 ];
