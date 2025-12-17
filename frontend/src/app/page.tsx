@@ -1,4 +1,4 @@
-"use client"; // Required for Framer Motion animations on client-side
+"use client";
 
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Projects from "@/components/Projects";
@@ -269,7 +269,7 @@ export default function Home() {
           <div className="flex flex-col items-center text-center gap-6">
             <div className="relative w-40 h-40 overflow-hidden rounded-full shadow-lg border-2 border-primary/10 mb-4">
               <Image
-                src="/profile-pic-resized.png"
+                src="/Nguyen_Nguyen_Profile_Image.png"
                 alt="Nguyen - Profile Picture"
                 layout="fill"
                 objectFit="cover"
