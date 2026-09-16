@@ -93,9 +93,7 @@
       "title": "My Contact Info",
       "description": "Let's Connect!",
       "email": "7nguyennguyen3@gmail.com",
-      "phone": "714-468-8426",
-      "chatbot_note": "If you have any other questions, feel free to ask the chatbot in the bottom right corner. I trained it to answer questions about me!",
-      "note": "Please text me as I don't take phone calls from unknown numbers. We can schedule a call after texting!"
+      "chatbot_note": "If you have any other questions, feel free to ask the chatbot in the bottom right corner. I trained it to answer questions about me!"
     }
   },
   "education": {

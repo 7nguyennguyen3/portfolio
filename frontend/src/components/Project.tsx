@@ -52,10 +52,10 @@ const Project = ({
     topImageIndex !== -1 ? images[topImageIndex] : "/placeholder.png";
 
   return (
-    <Card className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch max-w-6xl mx-auto mb-16 md:mb-24 overflow-hidden shadow-xl border">
+    <Card className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch max-w-6xl mx-auto mb-16 md:mb-24 overflow-hidden shadow-none border border-neutral-800 bg-neutral-900/30">
       <div className="flex flex-col p-6 md:p-8 lg:p-10 order-2 lg:order-1">
         <div className="mb-6">
-          <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-1.5">
+          <h3 className="text-2xl md:text-3xl font-bold font-heading text-foreground mb-2">
             {title}
           </h3>
           {subtitle && (
@@ -66,7 +66,7 @@ const Project = ({
         <div className="flex-grow flex flex-col gap-4 mb-6">
           <div className="flex flex-wrap gap-2">
             {technologies.map((tech, index) => (
-              <Badge key={index} variant="secondary" className="text-xs">
+              <Badge key={index} variant="secondary" className="text-xs bg-neutral-800 text-neutral-300 hover:bg-neutral-700">
                 {tech}
               </Badge>
             ))}
@@ -76,12 +76,12 @@ const Project = ({
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-3 mt-auto pt-6 border-t">
+        <div className="flex flex-col sm:flex-row items-center gap-3 mt-auto pt-6 border-t border-neutral-800">
           <Link
             href={href}
             className={cn(
               buttonVariants({ variant: "default" }),
-              "w-full sm:w-auto gap-2"
+              "w-full sm:w-auto gap-2 bg-white text-black hover:bg-neutral-200"
             )}
           >
             View Details <Eye size={16} />
@@ -95,7 +95,7 @@ const Project = ({
                 rel="noopener noreferrer"
                 className={cn(
                   buttonVariants({ variant: "outline" }),
-                  "w-full sm:w-auto gap-2"
+                  "w-full sm:w-auto gap-2 bg-transparent border-neutral-700 text-neutral-300 hover:bg-neutral-800"
                 )}
               >
                 Visit Live Site <ExternalLink size={16} />
@@ -105,7 +105,7 @@ const Project = ({
       </div>
 
       {/* --- Right Column (Image Area - UNCHANGED) --- */}
-      <div className="relative overflow-hidden min-h-[350px] sm:min-h-[450px] lg:min-h-full bg-muted/50 order-1 lg:order-2 p-6 sm:p-8 flex items-center justify-center">
+      <div className="relative overflow-hidden min-h-[350px] sm:min-h-[450px] lg:min-h-full bg-neutral-900/50 order-1 lg:order-2 p-6 sm:p-8 flex items-center justify-center border-l border-neutral-800">
         <div className="relative w-full h-full max-w-md aspect-[4/3]">
           <AnimatePresence initial={false}>
             {[...Array(cardsInStack)].map((_, i) => {
@@ -124,7 +124,7 @@ const Project = ({
                   key={imageIndex}
                   className={cn(
                     "absolute inset-0 w-full h-full cursor-pointer",
-                    "p-1.5 sm:p-2 bg-white dark:bg-neutral-800 rounded-lg shadow-md border border-neutral-200 dark:border-neutral-700"
+                    "p-1.5 sm:p-2 bg-neutral-900 rounded-lg shadow-2xl border border-neutral-700"
                   )}
                   onClick={showNextImage}
                   style={{ zIndex }}
@@ -164,7 +164,7 @@ const Project = ({
               size="icon"
               className={cn(
                 "absolute bottom-4 right-4 rounded-full z-40 shadow-xl w-10 h-10",
-                "bg-primary text-primary-foreground hover:bg-primary/90"
+                "bg-white text-black hover:bg-neutral-200"
               )}
               onClick={(e) => {
                 e.stopPropagation();

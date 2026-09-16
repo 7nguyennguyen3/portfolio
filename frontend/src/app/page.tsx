@@ -2,444 +2,585 @@
 
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Projects from "@/components/Projects";
-import { Boxes } from "@/components/ui/background-boxes";
-import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import {
-  ArrowDown,
-  ArrowUpCircle,
-  BrainCircuit,
-  Code2,
-  Coffee,
-  Component,
+  ArrowRight,
+  Calculator,
   Database,
+  FileText,
   Github,
-  LayoutPanelLeft,
+  GraduationCap,
+  Heart,
+  Languages as LanguagesIcon,
   Linkedin,
-  LucideProps,
   Mail,
-  MessageSquare,
-  Server,
-  TerminalSquare,
+  MapPin,
+  Users,
+  Wrench,
+  BadgeCheck,
+  LucideProps,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion"; // Import motion from framer-motion
-import { SKILL_CATEGORIES, SKILLS_DATA } from "./_global/variables"; // Assuming these are correctly imported
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  SKILL_CATEGORIES,
+  SKILLS_DATA,
+  CERTIFICATIONS,
+  EXPERIENCE,
+  EDUCATION,
+  INVOLVEMENT,
+  INTERESTS,
+  LANGUAGES,
+  PROFILE,
+} from "./_global/variables";
 
-// --- Helper Function and Data Preparation (Keep as is) ---
-const groupSkillsForHybrid = (skillsData: typeof SKILLS_DATA) => {
-  const grouped = {} as Record<string, string[]>;
-  const categoryOrder = [
-    "Languages",
-    "Frontend",
-    "Backend & Auth",
-    "Databases",
-    "AI / ML",
-    "DevOps & Tools",
-  ];
-
-  categoryOrder.forEach((cat) => {
-    grouped[cat] = [];
-  });
-
-  skillsData.forEach((skill) => {
+/* --- Group skills by category --- */
+const groupSkills = () => {
+  const grouped: Record<string, string[]> = {};
+  Object.keys(SKILL_CATEGORIES).forEach((cat) => (grouped[cat] = []));
+  SKILLS_DATA.forEach((skill) => {
     for (const [category, types] of Object.entries(SKILL_CATEGORIES)) {
       if (types.includes(skill.type)) {
-        if (!grouped[category]) grouped[category] = [];
         grouped[category].push(skill.skill);
         break;
       }
     }
   });
   return Object.fromEntries(
-    Object.entries(grouped).filter(([_, skills]) => skills.length > 0)
+    Object.entries(grouped).filter(([, s]) => s.length > 0),
   );
 };
 
-const hybridGroupedSkills = groupSkillsForHybrid(SKILLS_DATA);
-const hybridSkillCategories = Object.keys(hybridGroupedSkills);
+const groupedSkills = groupSkills();
 
 const categoryIcons: Record<string, React.ElementType<LucideProps>> = {
-  Languages: Code2,
-  Frontend: LayoutPanelLeft,
-  "Backend & Auth": Server,
-  Databases: Database,
-  "AI / ML": BrainCircuit,
-  "DevOps & Tools": TerminalSquare,
+  "Accounting & Finance": Calculator,
+  "Data & Analytics": Database,
+  "Software & Tools": Wrench,
 };
 
-// --- Framer Motion Variants ---
-
-// Variants for staggering skill badges
-const skillsContainerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.05, // Delay between each badge animation
-    },
-  },
-};
-
-const skillItemVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0 },
-};
-
-// Variants for sections animating into view
 const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeInOut",
-    },
+    transition: { duration: 0.6, ease: "easeOut" },
   },
 };
 
-// --- Main Component ---
+const STATS = [
+  { label: "Major GPA", value: "3.52" },
+  { label: "CPA Eligible", value: "May 2028" },
+  { label: "App Downloads", value: "500+" },
+];
+
 export default function Home() {
-  const [showScrollTopButton, setShowScrollTopButton] = useState(false);
-
-  useEffect(() => {
-    const checkScrollTop = () => {
-      // Show button when scrolled down more than (e.g.) 400px
-      if (!showScrollTopButton && window.scrollY > 400) {
-        setShowScrollTopButton(true);
-      } else if (showScrollTopButton && window.scrollY <= 400) {
-        setShowScrollTopButton(false);
-      }
-    };
-
-    window.addEventListener("scroll", checkScrollTop);
-    // Cleanup function to remove the listener when the component unmounts
-    return () => window.removeEventListener("scroll", checkScrollTop);
-  }, [showScrollTopButton]);
-
-  const scrollToView = ({ id }: { id: string }) => {
-    const heroElement = document.getElementById(id);
-    if (heroElement) {
-      heroElement.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
   return (
-    <div className="relative">
-      <AnimatePresence>
-        {showScrollTopButton && (
-          <motion.button
-            onClick={() => scrollToView({ id: "hero" })}
-            aria-label="Scroll to top"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            className={`p-[10px] bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 
-              transition-opacity duration-300 ease-in-out
-              fixed bottom-[72px] right-4 md:bottom-8 md:right-[84px] z-50`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-          >
-            <ArrowUpCircle size={28} />
-          </motion.button>
-        )}
-      </AnimatePresence>
-      <motion.section
-        id="hero"
-        className="relative flex items-center justify-center w-full
-         min-h-[80vh] md:min-h-[70vh] overflow-hidden p-4 bg-black text-white"
-      >
-        <div className="absolute inset-0 z-0">
-          <Boxes />
-        </div>
-        <MaxWidthWrapper className="relative z-10 flex flex-col items-center text-center gap-6 md:gap-8">
-          {/* Animate Hero Elements on Load */}
-          <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight max-w-4xl"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            👋 Hi, I&apos;m Nguyen
-            <br />
-            <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              Full Stack Developer
-            </span>
-          </motion.h1>
-          <motion.p
-            className="mt-2 text-lg md:text-xl text-neutral-300 max-w-xl"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            🚀 Passionate about exploring new technologies and building
-            innovative applications. Let&apos;s connect and create something
-            amazing together!
-          </motion.p>
+    <div className="relative bg-white overflow-x-hidden">
+      {/* --- Hero --- */}
+      <section className="relative border-b border-slate-200 bg-slate-50 bg-grid-slate">
+        <MaxWidthWrapper className="py-20 md:py-28">
+          <div className="flex flex-col-reverse md:flex-row items-center gap-12 md:gap-16">
+            {/* Left */}
+            <div className="flex-1 flex flex-col items-start text-left">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-800 mb-5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  Accounting Student · CPA-Track · May 2028
+                </span>
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold tracking-tight text-slate-900 mb-5">
+                  Nguyen Nguyen
+                </h1>
+                <p className="text-lg md:text-xl text-slate-600 max-w-xl leading-relaxed mb-8">
+                  Accounting student at Cal State Fullerton with a minor in
+                  Business Data Analytics. I care about clean books, sound
+                  internal controls, and using data to make better financial
+                  decisions — with a builder&apos;s background from running my
+                  own LLC.
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="flex flex-wrap items-center gap-3"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.15 }}
+              >
+                <a
+                  href={PROFILE.resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-emerald-700 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-800 transition-colors"
+                >
+                  <FileText className="h-4 w-4" /> View Résumé
+                </a>
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-100 transition-colors"
+                >
+                  See my work <ArrowRight className="h-4 w-4" />
+                </Link>
+                <div className="flex items-center gap-1 ml-1">
+                  <a
+                    href={PROFILE.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    className="p-2.5 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                  >
+                    <Github size={20} />
+                  </a>
+                  <a
+                    href={PROFILE.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    className="p-2.5 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                  >
+                    <Linkedin size={20} />
+                  </a>
+                  <a
+                    href={`mailto:${PROFILE.email}`}
+                    aria-label="Email"
+                    className="p-2.5 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                  >
+                    <Mail size={20} />
+                  </a>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="flex items-center gap-2 text-sm text-slate-500 mt-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <MapPin className="h-4 w-4" /> {PROFILE.location}
+              </motion.div>
+            </div>
+
+            {/* Right — profile */}
+            <motion.div
+              className="relative w-full max-w-[260px] md:max-w-[320px] aspect-square"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <div className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-emerald-200/50 to-slate-200/50 blur-2xl" />
+              <div className="relative h-full w-full rounded-3xl overflow-hidden border-4 border-white bg-white shadow-xl ring-1 ring-slate-200">
+                <Image
+                  src="/LinkedIn_Headshot.jpg"
+                  alt="Nguyen Nguyen"
+                  fill
+                  className="object-cover object-[50%_15%] scale-[1.3] translate-x-[8%]"
+                  priority
+                />
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Stats */}
           <motion.div
-            className="flex items-center justify-center gap-3 mt-4"
-            initial={{ opacity: 0, y: -20 }}
+            className="grid grid-cols-3 gap-4 md:gap-6 mt-14 max-w-2xl"
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.35 }}
           >
-            {/* Social Links */}
-            <a
-              href="https://github.com/7nguyennguyen3"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-              className={cn(
-                buttonVariants({ variant: "ghost", size: "icon" }),
-                "text-neutral-300 hover:text-white hover:bg-white/10 rounded-full"
-              )}
-            >
-              <Github size={24} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/7nguyennguyen3"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              className={cn(
-                buttonVariants({ variant: "ghost", size: "icon" }),
-                "text-neutral-300 hover:text-white hover:bg-white/10 rounded-full"
-              )}
-            >
-              <Linkedin size={24} />
-            </a>
-            <a
-              href="mailto:7nguyennguyen3@gmail.com"
-              aria-label="Email Me"
-              className={cn(
-                buttonVariants({ variant: "ghost", size: "icon" }),
-                "text-neutral-300 hover:text-white hover:bg-white/10 rounded-full"
-              )}
-            >
-              <Mail size={24} />
-            </a>
-            <Link
-              href="/contact"
-              aria-label="Contact Page"
-              className={cn(
-                buttonVariants({ variant: "ghost", size: "icon" }),
-                "text-neutral-300 hover:text-white hover:bg-white/10 rounded-full"
-              )}
-            >
-              <MessageSquare size={24} />
-            </Link>
-          </motion.div>
-          <motion.div
-            className="mt-6 md:mt-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <Button
-              onClick={() => scrollToView({ id: "projects" })}
-              className={cn(
-                buttonVariants({ size: "lg" }),
-                "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:opacity-90 gap-2"
-              )}
-            >
-              View My Work <ArrowDown size={20} />
-            </Button>
+            {STATS.map((s) => (
+              <div
+                key={s.label}
+                className="rounded-xl border border-slate-200 bg-white px-4 py-4 text-center shadow-sm"
+              >
+                <div className="text-2xl md:text-3xl font-heading font-bold text-slate-900">
+                  {s.value}
+                </div>
+                <div className="text-xs md:text-sm text-slate-500 mt-1">
+                  {s.label}
+                </div>
+              </div>
+            ))}
           </motion.div>
         </MaxWidthWrapper>
-      </motion.section>
+      </section>
 
-      {/* --- About Me Section --- */}
-      <motion.section // Use motion.section for scroll animations
-        id="about-me"
-        className="py-16 md:py-24 bg-background dark:bg-slate-900"
+      {/* --- Education --- */}
+      <motion.section
+        id="education"
+        className="py-20 md:py-24"
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is visible
+        viewport={{ once: true, amount: 0.15 }}
       >
         <MaxWidthWrapper>
-          <div className="flex flex-col items-center text-center gap-6">
-            <div className="relative w-40 h-40 overflow-hidden rounded-full shadow-lg border-2 border-primary/10 mb-4">
-              <Image
-                src="/Nguyen_Nguyen_Profile_Image.png"
-                alt="Nguyen - Profile Picture"
-                layout="fill"
-                objectFit="cover"
-                priority
-              />
-            </div>
-            <div className="max-w-2xl flex flex-col items-center gap-4">
-              <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
-                A Bit About Me
-              </h2>
-              <p className="text-muted-foreground leading-relaxed mt-2">
-                As a Full-Stack Developer, I focus on building practical web
-                solutions. An early interest in computers, beginning with games
-                and digital design, guided me towards development. My goal is
-                creating functional, user-friendly applications, and I make it a
-                point to keep learning new technologies.
+          <div className="max-w-2xl mb-12">
+            <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-3">
+              Education
+            </p>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900">
+              Academic background
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {EDUCATION.map((edu) => (
+              <div
+                key={edu.school}
+                className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+                    <GraduationCap size={22} />
+                  </div>
+                  <span className="text-sm text-slate-500">{edu.period}</span>
+                </div>
+                <h3 className="text-lg font-heading font-semibold text-slate-900 mb-1">
+                  {edu.school}
+                </h3>
+                <p className="text-slate-600 text-sm mb-4">{edu.credential}</p>
+                {edu.details.length > 0 && (
+                  <ul className="flex flex-wrap gap-2">
+                    {edu.details.map((d) => (
+                      <li
+                        key={d}
+                        className="px-2.5 py-1 text-xs font-medium text-slate-600 bg-slate-100 border border-slate-200 rounded-md"
+                      >
+                        {d}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        </MaxWidthWrapper>
+      </motion.section>
+
+      {/* --- Experience --- */}
+      <motion.section
+        id="experience"
+        className="py-20 md:py-24 bg-slate-50 border-y border-slate-200"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
+        <MaxWidthWrapper>
+          <div className="max-w-2xl mb-12">
+            <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-3">
+              Experience
+            </p>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900">
+              Where I&apos;ve worked
+            </h2>
+          </div>
+
+          <div className="space-y-6">
+            {EXPERIENCE.map((exp) => (
+              <div
+                key={exp.company}
+                className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm"
+              >
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-4">
+                  <div>
+                    <h3 className="text-xl font-heading font-semibold text-slate-900">
+                      {exp.role}
+                    </h3>
+                    <p className="text-emerald-700 font-medium">
+                      {exp.company}{" "}
+                      <span className="text-slate-400 font-normal">
+                        · {exp.location}
+                      </span>
+                    </p>
+                  </div>
+                  <span className="text-sm text-slate-500 whitespace-nowrap md:pt-1">
+                    {exp.period}
+                  </span>
+                </div>
+                <ul className="space-y-2.5">
+                  {exp.bullets.map((b, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
+                      <span className="text-slate-600 text-sm leading-relaxed">
+                        {b}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </MaxWidthWrapper>
+      </motion.section>
+
+      {/* --- Projects --- */}
+      <motion.section
+        id="projects"
+        className="py-20 md:py-24"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        <MaxWidthWrapper>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-3">
+                Projects
               </p>
-              <div className="mt-4">
-                <Link
-                  href="/about"
-                  className={cn(
-                    buttonVariants({ variant: "link" }),
-                    "p-0 h-auto text-primary hover:text-primary/90 inline-block"
+              <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-3">
+                Selected work
+              </h2>
+              <p className="text-slate-600">
+                Accounting tools and products where I owned both the build and
+                the business behind it.
+              </p>
+            </div>
+            <Link
+              href="/projects"
+              className="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-100 transition-colors"
+            >
+              View all <ArrowRight size={16} />
+            </Link>
+          </div>
+
+          <Projects />
+        </MaxWidthWrapper>
+      </motion.section>
+
+      {/* --- Campus & Professional Involvement --- */}
+      <motion.section
+        id="involvement"
+        className="py-20 md:py-24 bg-slate-50 border-y border-slate-200"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
+        <MaxWidthWrapper>
+          <div className="max-w-2xl mb-12">
+            <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-3">
+              Involvement
+            </p>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900">
+              Campus & professional involvement
+            </h2>
+          </div>
+
+          <div className="space-y-6">
+            {INVOLVEMENT.map((inv) => (
+              <div
+                key={inv.org}
+                className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm"
+              >
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+                      <Users size={20} />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-heading font-semibold text-slate-900">
+                        {inv.org}
+                      </h3>
+                      {inv.role && (
+                        <p className="text-emerald-700 font-medium text-sm">
+                          {inv.role}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  {inv.period && (
+                    <span className="text-sm text-slate-500 whitespace-nowrap md:pt-1">
+                      {inv.period}
+                    </span>
                   )}
+                </div>
+                <p className="text-slate-600 text-sm leading-relaxed">
+                  {inv.detail}
+                </p>
+              </div>
+            ))}
+          </div>
+        </MaxWidthWrapper>
+      </motion.section>
+
+      {/* --- Skills & Certifications --- */}
+      <motion.section
+        id="skills"
+        className="py-20 md:py-24"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        <MaxWidthWrapper>
+          <div className="max-w-2xl mb-12">
+            <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-3">
+              Skills
+            </p>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900">
+              What I work with
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {Object.entries(groupedSkills).map(([category, skills]) => {
+              const Icon = categoryIcons[category] || Wrench;
+              return (
+                <div
+                  key={category}
+                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
                 >
-                  Learn more about my journey →
-                </Link>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+                      <Icon size={20} />
+                    </div>
+                    <h3 className="font-heading font-semibold text-lg text-slate-900">
+                      {category}
+                    </h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-2.5 py-1 text-xs font-medium text-slate-600 bg-slate-100 border border-slate-200 rounded-md"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Certifications */}
+          <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+                <BadgeCheck size={20} />
+              </div>
+              <h3 className="font-heading font-semibold text-lg text-slate-900">
+                Certifications
+              </h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {CERTIFICATIONS.map((cert) => (
+                <span
+                  key={cert}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-slate-700 bg-slate-50 border border-slate-200 rounded-lg"
+                >
+                  <BadgeCheck size={14} className="text-emerald-600" />
+                  {cert}
+                </span>
+              ))}
+            </div>
+          </div>
+        </MaxWidthWrapper>
+      </motion.section>
+
+      {/* --- Beyond work --- */}
+      <motion.section
+        id="beyond-work"
+        className="py-20 md:py-24 bg-slate-50 border-y border-slate-200"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
+        <MaxWidthWrapper>
+          <div className="max-w-2xl mb-12">
+            <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-3">
+              Beyond work
+            </p>
+            <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900">
+              A bit more about me
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+                  <Heart size={20} />
+                </div>
+                <h3 className="font-heading font-semibold text-lg text-slate-900">
+                  Interests
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {INTERESTS.map((interest) => (
+                  <span
+                    key={interest}
+                    className="px-2.5 py-1 text-xs font-medium text-slate-600 bg-slate-100 border border-slate-200 rounded-md"
+                  >
+                    {interest}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-emerald-50 text-emerald-700">
+                  <LanguagesIcon size={20} />
+                </div>
+                <h3 className="font-heading font-semibold text-lg text-slate-900">
+                  Languages
+                </h3>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {LANGUAGES.map((lang) => (
+                  <span
+                    key={lang}
+                    className="px-2.5 py-1 text-xs font-medium text-slate-600 bg-slate-100 border border-slate-200 rounded-md"
+                  >
+                    {lang}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
         </MaxWidthWrapper>
       </motion.section>
 
-      {/* --- Skills Section --- */}
-      <motion.section // Use motion.section for scroll animations
-        id="skills"
-        className="py-16 md:py-24 bg-muted/30"
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is visible
-      >
-        <MaxWidthWrapper>
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10 md:mb-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Technical Skills
-          </h2>
-          <Tabs
-            defaultValue={hybridSkillCategories[0]}
-            className="w-full max-w-5xl mx-auto"
-          >
-            <TabsList className="grid w-full grid-cols-1 400:grid-cols-2 g sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-6 h-auto">
-              {hybridSkillCategories.map((type) => {
-                const Icon = categoryIcons[type] || Component;
-                return (
-                  <TabsTrigger
-                    key={type}
-                    value={type}
-                    className={cn(
-                      "justify-center px-3 py-2.5 text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md hover:bg-accent hover:text-accent-foreground transition-all rounded-md flex items-center gap-2",
-                      "text-xs sm:text-sm"
-                    )}
-                  >
-                    <Icon
-                      className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
-                      aria-hidden="true"
-                    />
-                    <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-                      {type}
-                    </span>
-                  </TabsTrigger>
-                );
-              })}
-            </TabsList>
-            {Object.entries(hybridGroupedSkills).map(([type, skills]) => (
-              <TabsContent
-                key={type}
-                value={type}
-                className="mt-0 rounded-lg border bg-card p-6 pb-8 shadow 
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                tabIndex={-1}
-              >
-                <motion.div
-                  className="flex items-center justify-center flex-wrap gap-3 md:gap-4"
-                  variants={skillsContainerVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {skills.map((skill) => (
-                    <motion.div key={skill} variants={skillItemVariants}>
-                      <Badge
-                        variant="outline"
-                        className={cn(
-                          "cursor-default whitespace-nowrap rounded-md border",
-                          "px-3 py-1.5 text-sm",
-                          "border-border bg-background text-foreground",
-                          "transition-colors duration-150 ease-in-out",
-                          "hover:bg-accent hover:border-accent-foreground/50 hover:text-accent-foreground",
-                          "flex items-center justify-center text-center"
-                        )}
-                      >
-                        {skill}
-                      </Badge>
-                    </motion.div>
-                  ))}
-                </motion.div>
-              </TabsContent>
-            ))}
-          </Tabs>
-        </MaxWidthWrapper>
-      </motion.section>
-
-      {/* --- Projects Section --- */}
-      <motion.section // Use motion.section for scroll animations
-        id="projects"
-        className="py-16 md:py-24 bg-background dark:bg-slate-900"
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is visible
-      >
-        <MaxWidthWrapper>
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-10 md:mb-12 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Featured Projects
-          </h2>
-          {/* Assuming Projects component handles its own internal animations if needed */}
-          <Projects />
-        </MaxWidthWrapper>
-      </motion.section>
-
-      {/* --- Contact Section --- */}
-      <motion.section // Use motion.section for scroll animations
+      {/* --- Contact CTA --- */}
+      <motion.section
         id="contact"
-        className="py-16 md:py-24 bg-muted/30"
+        className="py-20 md:py-28"
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }} // Trigger when 20% is visible
+        viewport={{ once: true, amount: 0.2 }}
       >
         <MaxWidthWrapper className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Let&apos;s Have a Chat!
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-slate-900 mb-5">
+            Let&apos;s connect
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground mb-6">
-            I&apos;m always open to new opportunities and collaborations. Feel
-            free to reach out!
+          <p className="text-lg text-slate-600 mb-10 max-w-xl mx-auto">
+            I&apos;m open to accounting internships, VITA work, and
+            conversations about the profession. Feel free to reach out.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Mail size={18} />
-              <a
-                href="mailto:7nguyennguyen3@gmail.com"
-                className="hover:text-blue-600 transition-colors"
-              >
-                7nguyennguyen3@gmail.com
-              </a>
-            </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-8 py-3.5 text-base font-semibold text-white hover:bg-slate-800 transition-colors w-full sm:w-auto"
+            >
+              Get in touch
+            </Link>
+            <a
+              href={`mailto:${PROFILE.email}`}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-8 py-3.5 text-base font-semibold text-slate-800 hover:bg-slate-100 transition-colors w-full sm:w-auto"
+            >
+              <Mail size={18} /> {PROFILE.email}
+            </a>
           </div>
-          <p className="text-muted-foreground mb-8 text-sm italic">
-            P.S. Have quick questions? Ask my personal chatbot assistant in the
-            bottom right!
-          </p>
-          <Link
-            href="/contact"
-            className={cn(
-              buttonVariants({ size: "lg" }),
-              "gap-2 bg-foreground text-background hover:bg-foreground/90"
-            )}
-          >
-            Get In Touch <Coffee size={20} />
-          </Link>
         </MaxWidthWrapper>
       </motion.section>
     </div>

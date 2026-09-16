@@ -1,28 +1,26 @@
 "use client";
 
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  Sparkles, // Introduction
-  User, // Fallback/Generic About
-  GraduationCap, // Learning Journey
-  Lightbulb, // Coding Philosophy
-  Heart, // Beyond Technology
-  Briefcase, // Current Endeavors
-  Target, // Professional Goals
-  CookingPot, // Cooking
-  TreePine, // Nature
-  Wrench, // Skills Icon
-  LucideProps,
+  Sparkles,
+  GraduationCap,
+  Target,
+  Heart,
+  Users,
+  Languages as LanguagesIcon,
+  FileText,
 } from "lucide-react";
+import {
+  INVOLVEMENT,
+  INTERESTS,
+  LANGUAGES,
+  PROFILE,
+} from "../_global/variables";
 
-// Framer Motion variants for subtle animation
 const sectionVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
@@ -34,92 +32,100 @@ const sectionVariants = {
 
 const AboutMePage = () => {
   return (
-    // Add scroll-margin-top matching navbar height if using fragment links
-    <div className="scroll-mt-20">
-      <MaxWidthWrapper className="py-20 md:py-24 space-y-12 md:space-y-16">
-        {" "}
-        {/* Increased spacing */}
-        {/* --- Header Section --- */}
-        <motion.div
-          initial="hidden"
-          animate="visible" // Animate header on load
-          variants={sectionVariants}
-          className="text-center md:text-left" // Center on mobile
-        >
-          <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            About Me
-          </h1>
-          {/* Revised Subtitle */}
-          <p className="text-xl text-muted-foreground">
-            Full-Stack Developer | Lifelong Learner | Animal Enthusiast 🐾
-          </p>
-        </motion.div>
-        {/* --- Introduction & Image Section --- */}
+    <div className="bg-white">
+      {/* Header */}
+      <section className="border-b border-slate-200 bg-slate-50 bg-grid-slate">
+        <MaxWidthWrapper className="py-16 md:py-20">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={sectionVariants}
+            className="grid grid-cols-1 md:grid-cols-3 gap-10 items-center"
+          >
+            <div className="md:col-span-1 flex justify-center md:justify-start">
+              <div className="relative w-40 h-40 md:w-52 md:h-52 overflow-hidden rounded-2xl border-4 border-white shadow-xl ring-1 ring-slate-200">
+                <Image
+                  src="/LinkedIn_Headshot.jpg"
+                  alt="Nguyen Nguyen"
+                  fill
+                  className="object-cover object-top scale-[1.3]"
+                  priority
+                />
+              </div>
+            </div>
+            <div className="md:col-span-2">
+              <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-3">
+                About
+              </p>
+              <h1 className="text-4xl md:text-5xl font-heading font-bold text-slate-900 mb-4">
+                Hi, I&apos;m Nguyen
+              </h1>
+              <p className="text-lg text-slate-600 leading-relaxed">
+                Accounting student · CPA-track · Aspiring tax & assurance
+                professional
+              </p>
+            </div>
+          </motion.div>
+        </MaxWidthWrapper>
+      </section>
+
+      <MaxWidthWrapper className="py-16 md:py-20 space-y-14">
+        {/* Intro */}
         <motion.section
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={sectionVariants}
-          aria-labelledby="intro-heading"
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-center"
+          className="max-w-3xl"
         >
-          <div className="md:col-span-1 flex justify-center md:justify-start">
-            <div className="relative w-40 h-40 md:w-48 md:h-48 overflow-hidden rounded-full shadow-lg border-2 border-primary/10">
-              <Image
-                src="/Nguyen_Nguyen_Profile_Image.png"
-                alt="Nguyen - Profile Picture"
-                layout="fill"
-                objectFit="cover"
-                priority
-              />
-            </div>
-          </div>
-          <div className="md:col-span-2 space-y-4 text-center md:text-left">
-            <h2
-              id="intro-heading"
-              className="text-2xl font-semibold text-foreground flex items-center justify-center md:justify-start gap-2"
-            >
-              <Sparkles className="w-6 h-6 text-primary" />
-              Hello There!
-            </h2>
-            {/* Revised Introduction Text */}
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              I&apos;m Nguyen Nguyen, a Full-Stack Developer drawn to creating
-              intuitive and effective web applications. My interest in
-              technology started early, sparked by video games and leading to
-              explorations in computing 💻. Through practice and building
-              various projects, I&apos;ve developed my skills in modern web
-              development. Here’s a bit more about my journey and focus 🚀.
+          <h2 className="text-2xl font-heading font-semibold text-slate-900 flex items-center gap-2 mb-4">
+            <Sparkles className="w-6 h-6 text-emerald-600" />
+            My story
+          </h2>
+          <div className="space-y-4 text-slate-600 leading-relaxed text-lg">
+            <p>
+              I&apos;m an accounting student at California State University,
+              Fullerton, with a concentration in Accounting and a minor in
+              Business Data Analytics. I&apos;m on track to be CPA-eligible in
+              May 2028.
+            </p>
+            <p>
+              Before committing to accounting, I founded and ran Embercore LLC —
+              a self-funded software company. That experience taught me the
+              financial side of running a business firsthand: bookkeeping,
+              monthly bank reconciliations, expense tracking, pricing, and
+              building basic internal controls around payments and access. It&apos;s
+              what pulled me toward accounting as a career.
+            </p>
+            <p>
+              Today I&apos;m focused on tax and assurance, sharpening my Excel and
+              data-analytics skills, and getting hands-on experience through VITA
+              and campus organizations. I still keep a foot in tech — I built an
+              ASC 842 lease calculator to connect the accounting standards
+              I&apos;m learning with tools I can actually build.
             </p>
           </div>
         </motion.section>
-        {/* --- Combined Journey & Philosophy Section --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+
+        {/* Journey & Goals */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <motion.section
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={sectionVariants}
-            aria-labelledby="journey-heading"
+            className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm"
           >
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-2xl">
-                  <GraduationCap className="w-6 h-6 text-primary" />
-                  <span id="journey-heading">Learning Journey</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {/* Revised Journey Text */}
-                <p className="text-muted-foreground leading-relaxed">
-                  I enjoy the process of learning and am always seeking
-                  opportunities to grow. Starting with front-end development,
-                  I&apos;ve progressively broadened my expertise into full-stack
-                  capabilities. My primary goal is to build applications that
-                  are genuinely useful and solve real-world problems.
-                </p>
-              </CardContent>
-            </Card>
+            <h3 className="flex items-center gap-2 text-xl font-heading font-semibold text-slate-900 mb-3">
+              <GraduationCap className="w-6 h-6 text-emerald-600" />
+              How I got here
+            </h3>
+            <p className="text-slate-600 leading-relaxed">
+              Running my own LLC turned abstract business concepts into real,
+              recurring work — closing the books, reconciling accounts, and
+              keeping clean records. I found I genuinely enjoyed the rigor of it,
+              which led me to pursue accounting and the CPA track.
+            </p>
           </motion.section>
 
           <motion.section
@@ -127,137 +133,132 @@ const AboutMePage = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0.3 }}
             variants={sectionVariants}
-            aria-labelledby="philosophy-heading"
+            className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm"
           >
-            <Card className="h-full">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-2xl">
-                  <Lightbulb className="w-6 h-6 text-primary" />
-                  <span id="philosophy-heading">Coding Philosophy</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {/* Revised Philosophy Text */}
-                <p className="text-muted-foreground leading-relaxed">
-                  I approach challenges with persistence, focusing on
-                  understanding concepts deeply rather than just finding
-                  surface-level solutions. I find that thoroughly working
-                  through a problem solidifies my knowledge and improves my
-                  ability to tackle similar challenges later 💡.
-                </p>
-              </CardContent>
-            </Card>
+            <h3 className="flex items-center gap-2 text-xl font-heading font-semibold text-slate-900 mb-3">
+              <Target className="w-6 h-6 text-emerald-600" />
+              What&apos;s next
+            </h3>
+            <p className="text-slate-600 leading-relaxed">
+              I&apos;m completing my IRS VITA certification, staying active in Beta
+              Alpha Psi and other professional organizations, and looking for
+              accounting internships where I can contribute and keep learning the
+              profession from the inside.
+            </p>
           </motion.section>
         </div>
-        {/* --- Simplified Skills Section --- */}
+
+        {/* Involvement */}
         <motion.section
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          viewport={{ once: true, amount: 0.15 }}
           variants={sectionVariants}
-          aria-labelledby="skills-heading"
         >
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-2xl">
-                <Wrench className="w-6 h-6 text-primary" />
-                <span id="skills-heading">Core Skills</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Summary Text (Unchanged) */}
-              <p className="text-muted-foreground leading-relaxed">
-                I have experience across the full stack, including modern
-                languages like TypeScript and Python, frontend frameworks like
-                React/Next.js, backend technologies such as Node.js/FastAPI,
-                various SQL/NoSQL databases, and essential DevOps tools like
-                Docker & Git. I'm always expanding my toolkit!
-              </p>
-              <Button
-                variant="link"
-                asChild
-                className="p-0 h-auto text-primary hover:text-primary/90"
+          <h2 className="text-2xl font-heading font-semibold text-slate-900 flex items-center gap-2 mb-6">
+            <Users className="w-6 h-6 text-emerald-600" />
+            Campus & professional involvement
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {INVOLVEMENT.map((item) => (
+              <div
+                key={item.org}
+                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
               >
-                <Link href="/#skills">
-                  {" "}
-                  {/* Make sure this links correctly to homepage skills */}
-                  View Detailed Skills Breakdown →
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <h3 className="font-heading font-semibold text-slate-900">
+                    {item.org}
+                  </h3>
+                  {item.role && (
+                    <span className="text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                      {item.role}
+                    </span>
+                  )}
+                </div>
+                {item.period && (
+                  <p className="text-xs text-slate-400 mb-2">{item.period}</p>
+                )}
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  {item.detail}
+                </p>
+              </div>
+            ))}
+          </div>
         </motion.section>
-        {/* --- Beyond Technology Section --- */}
+
+        {/* Beyond work */}
         <motion.section
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={sectionVariants}
-          aria-labelledby="beyond-heading"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          <h2
-            id="beyond-heading"
-            className="text-2xl md:text-3xl font-semibold text-foreground mb-6 flex items-center gap-2 justify-center md:justify-start"
-          >
-            <Heart className="w-7 h-7 text-primary" />
-            Beyond Technology
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="p-6 border rounded-lg bg-card">
-              <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
-                <CookingPot className="w-5 h-5 text-amber-600" />
-                Learning to Cook 🍳
-              </h3>
-              {/* Fixed typo, slight rephrase */}
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                I enjoy experimenting in the kitchen, often following cooking
-                videos or guides. It feels great when a dish comes out
-                delicious.
-              </p>
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
+            <h3 className="flex items-center gap-2 text-xl font-heading font-semibold text-slate-900 mb-4">
+              <Heart className="w-6 h-6 text-emerald-600" />
+              Beyond the books
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {INTERESTS.map((interest) => (
+                <span
+                  key={interest}
+                  className="px-3 py-1.5 text-sm font-medium text-slate-700 bg-slate-100 border border-slate-200 rounded-lg"
+                >
+                  {interest}
+                </span>
+              ))}
             </div>
-            <div className="p-6 border rounded-lg bg-card">
-              <h3 className="font-semibold text-lg mb-2 flex items-center gap-2">
-                <TreePine className="w-5 h-5 text-green-600" />
-                Walking in Nature 🌳
-              </h3>
-              {/* Slight rephrase */}
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Taking walks, often in local parks, helps me recharge. Being
-                surrounded by greenery and fresh air is both refreshing and
-                inspiring.
-              </p>
+          </div>
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
+            <h3 className="flex items-center gap-2 text-xl font-heading font-semibold text-slate-900 mb-4">
+              <LanguagesIcon className="w-6 h-6 text-emerald-600" />
+              Languages
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {LANGUAGES.map((lang) => (
+                <span
+                  key={lang}
+                  className="px-3 py-1.5 text-sm font-medium text-slate-700 bg-slate-100 border border-slate-200 rounded-lg"
+                >
+                  {lang}
+                </span>
+              ))}
             </div>
           </div>
         </motion.section>
-        {/* --- Looking Ahead Section (Endeavors/Goals Combined) --- */}
+
+        {/* CTA */}
         <motion.section
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={sectionVariants}
-          aria-labelledby="future-heading"
+          className="rounded-2xl border border-slate-200 bg-slate-900 p-8 md:p-10 text-center"
         >
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-2xl">
-                <Target className="w-6 h-6 text-primary" />
-                <span id="future-heading">Looking Ahead</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Revised Future Text */}
-              <p className="text-muted-foreground leading-relaxed">
-                Currently, I’m focused on developing robust platforms using
-                modern web technologies, emphasizing responsive, accessible, and
-                performant user experiences 🌐.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Looking ahead, I aim to contribute effectively to collaborative
-                team environments 👨‍💻👩‍💻, engage with the open-source community
-                🌍, and continue learning to build impactful web solutions.
-              </p>
-            </CardContent>
-          </Card>
+          <h2 className="text-2xl md:text-3xl font-heading font-bold text-white mb-3">
+            Want the full picture?
+          </h2>
+          <p className="text-slate-300 mb-6 max-w-lg mx-auto">
+            My résumé has the complete rundown of my experience, education, and
+            certifications.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a
+              href={PROFILE.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-500 transition-colors w-full sm:w-auto"
+            >
+              <FileText size={18} /> View Résumé
+            </a>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-600 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors w-full sm:w-auto"
+            >
+              Get in touch
+            </Link>
+          </div>
         </motion.section>
       </MaxWidthWrapper>
     </div>

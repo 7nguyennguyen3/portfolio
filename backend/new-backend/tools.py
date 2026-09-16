@@ -27,8 +27,6 @@ def get_info(arguments: str):
                     result.append(
                         f"--- Contact Information ---\n"
                         f"Email: {contact_info.get('email', 'N/A')}\n"
-                        f"Phone: {contact_info.get('phone', 'N/A')}\n"
-                        f"Note: {contact_info.get('note', '')}\n"
                         f"Chatbot Note: {contact_info.get('chatbot_note', '')}"
                     )
                 else:

@@ -1,5 +1,6 @@
 "use client";
 import { notFound, useParams } from "next/navigation";
+import { PROJECT_SLUGS } from "@/app/_global/projects";
 import ProjectDetail from "./ProjectDetail";
 
 const ProjectDetailPage = () => {
@@ -7,15 +8,7 @@ const ProjectDetailPage = () => {
   const projectName = searchParams.projectName;
 
   return typeof projectName === "string" &&
-    [
-      "versa-ai",
-      "petalsoft",
-      "finance-kaiju",
-      "hit-anime",
-      "microservices",
-      "finance-kaiju-mobile",
-      "chatbot-demo",
-    ].includes(projectName) ? (
+    PROJECT_SLUGS.includes(projectName) ? (
     <ProjectDetail projectName={projectName} />
   ) : (
     notFound()

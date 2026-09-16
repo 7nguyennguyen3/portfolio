@@ -4,8 +4,9 @@ frontend/development
 frontend/.next/
 frontend/.env
 frontend/.env.local
-frontend/.vercel/  
-frontend/.cache/ 
+frontend/.vercel/
+frontend/.cache/
+frontend/tsconfig.tsbuildinfo
 
 # Backend (Python/FastAPI)
 /backend/__pycache__
