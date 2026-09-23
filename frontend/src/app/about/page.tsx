@@ -3,17 +3,9 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 import { motion } from "framer-motion";
-import {
-  Sparkles,
-  GraduationCap,
-  Target,
-  Heart,
-  Users,
-  Languages as LanguagesIcon,
-  FileText,
-} from "lucide-react";
+import { FileText } from "lucide-react";
+import { fadeUp } from "@/lib/motion";
 import {
   INVOLVEMENT,
   INTERESTS,
@@ -21,29 +13,36 @@ import {
   PROFILE,
 } from "../_global/variables";
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+const TagRow = ({ label, tags }: { label: string; tags: string[] }) => (
+  <div>
+    <h3 className="text-sm font-semibold text-brass mb-3">{label}</h3>
+    <div className="flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <span
+          key={tag}
+          className="px-2.5 py-1 text-xs font-medium text-muted-foreground bg-secondary border border-border rounded-md"
+        >
+          {tag}
+        </span>
+      ))}
+    </div>
+  </div>
+);
 
 const AboutMePage = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-background">
       {/* Header */}
-      <section className="border-b border-slate-200 bg-slate-50 bg-grid-slate">
+      <section className="border-b border-border bg-section">
         <MaxWidthWrapper className="py-16 md:py-20">
           <motion.div
             initial="hidden"
             animate="visible"
-            variants={sectionVariants}
+            variants={fadeUp}
             className="grid grid-cols-1 md:grid-cols-3 gap-10 items-center"
           >
             <div className="md:col-span-1 flex justify-center md:justify-start">
-              <div className="relative w-40 h-40 md:w-52 md:h-52 overflow-hidden rounded-2xl border-4 border-white shadow-xl ring-1 ring-slate-200">
+              <div className="relative w-40 h-40 md:w-52 md:h-52 overflow-hidden rounded-2xl border-4 border-card ring-1 ring-border">
                 <Image
                   src="/LinkedIn_Headshot.jpg"
                   alt="Nguyen Nguyen"
@@ -54,13 +53,13 @@ const AboutMePage = () => {
               </div>
             </div>
             <div className="md:col-span-2">
-              <p className="text-sm font-semibold uppercase tracking-widest text-emerald-700 mb-3">
+              <p className="text-sm font-semibold uppercase tracking-widest text-brass mb-3">
                 About
               </p>
-              <h1 className="text-4xl md:text-5xl font-heading font-bold text-slate-900 mb-4">
+              <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-4">
                 Hi, I&apos;m Nguyen
               </h1>
-              <p className="text-lg text-slate-600 leading-relaxed">
+              <p className="text-lg text-muted-foreground leading-relaxed">
                 Accounting student · CPA-track · Aspiring tax & assurance
                 professional
               </p>
@@ -75,14 +74,13 @@ const AboutMePage = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          variants={sectionVariants}
+          variants={fadeUp}
           className="max-w-3xl"
         >
-          <h2 className="text-2xl font-heading font-semibold text-slate-900 flex items-center gap-2 mb-4">
-            <Sparkles className="w-6 h-6 text-emerald-600" />
+          <h2 className="text-2xl font-heading font-semibold text-foreground mb-4">
             My story
           </h2>
-          <div className="space-y-4 text-slate-600 leading-relaxed text-lg">
+          <div className="space-y-4 text-muted-foreground leading-relaxed text-lg">
             <p>
               I&apos;m an accounting student at California State University,
               Fullerton, with a concentration in Accounting and a minor in
@@ -108,138 +106,78 @@ const AboutMePage = () => {
         </motion.section>
 
         {/* Journey & Goals */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={sectionVariants}
-            className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm"
-          >
-            <h3 className="flex items-center gap-2 text-xl font-heading font-semibold text-slate-900 mb-3">
-              <GraduationCap className="w-6 h-6 text-emerald-600" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8 max-w-3xl">
+          <div>
+            <h3 className="text-lg font-heading font-semibold text-foreground mb-2">
               How I got here
             </h3>
-            <p className="text-slate-600 leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               Running my own LLC turned abstract business concepts into real,
               recurring work — closing the books, reconciling accounts, and
               keeping clean records. I found I genuinely enjoyed the rigor of it,
               which led me to pursue accounting and the CPA track.
             </p>
-          </motion.section>
+          </div>
 
-          <motion.section
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={sectionVariants}
-            className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm"
-          >
-            <h3 className="flex items-center gap-2 text-xl font-heading font-semibold text-slate-900 mb-3">
-              <Target className="w-6 h-6 text-emerald-600" />
+          <div>
+            <h3 className="text-lg font-heading font-semibold text-foreground mb-2">
               What&apos;s next
             </h3>
-            <p className="text-slate-600 leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               I&apos;m completing my IRS VITA certification, staying active in Beta
               Alpha Psi and other professional organizations, and looking for
               accounting internships where I can contribute and keep learning the
               profession from the inside.
             </p>
-          </motion.section>
+          </div>
         </div>
 
         {/* Involvement */}
-        <motion.section
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={sectionVariants}
-        >
-          <h2 className="text-2xl font-heading font-semibold text-slate-900 flex items-center gap-2 mb-6">
-            <Users className="w-6 h-6 text-emerald-600" />
+        <section>
+          <h2 className="text-2xl font-heading font-semibold text-foreground mb-6">
             Campus & professional involvement
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="divide-y divide-border border-t border-border">
             {INVOLVEMENT.map((item) => (
               <div
                 key={item.org}
-                className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 py-5"
               >
-                <div className="flex items-center justify-between gap-2 mb-2">
-                  <h3 className="font-heading font-semibold text-slate-900">
+                <div className="md:w-1/3">
+                  <h3 className="font-heading font-semibold text-foreground">
                     {item.org}
                   </h3>
                   {item.role && (
-                    <span className="text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                    <p className="text-brass font-medium text-sm">
                       {item.role}
-                    </span>
+                    </p>
+                  )}
+                  {item.period && (
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {item.period}
+                    </p>
                   )}
                 </div>
-                {item.period && (
-                  <p className="text-xs text-slate-400 mb-2">{item.period}</p>
-                )}
-                <p className="text-sm text-slate-600 leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed md:w-2/3">
                   {item.detail}
                 </p>
               </div>
             ))}
           </div>
-        </motion.section>
+        </section>
 
         {/* Beyond work */}
-        <motion.section
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={sectionVariants}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
-            <h3 className="flex items-center gap-2 text-xl font-heading font-semibold text-slate-900 mb-4">
-              <Heart className="w-6 h-6 text-emerald-600" />
-              Beyond the books
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {INTERESTS.map((interest) => (
-                <span
-                  key={interest}
-                  className="px-3 py-1.5 text-sm font-medium text-slate-700 bg-slate-100 border border-slate-200 rounded-lg"
-                >
-                  {interest}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm">
-            <h3 className="flex items-center gap-2 text-xl font-heading font-semibold text-slate-900 mb-4">
-              <LanguagesIcon className="w-6 h-6 text-emerald-600" />
-              Languages
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {LANGUAGES.map((lang) => (
-                <span
-                  key={lang}
-                  className="px-3 py-1.5 text-sm font-medium text-slate-700 bg-slate-100 border border-slate-200 rounded-lg"
-                >
-                  {lang}
-                </span>
-              ))}
-            </div>
-          </div>
-        </motion.section>
+        <div className="space-y-8 max-w-3xl">
+          <TagRow label="Beyond the books" tags={INTERESTS} />
+          <TagRow label="Languages" tags={LANGUAGES} />
+        </div>
 
-        {/* CTA */}
-        <motion.section
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={sectionVariants}
-          className="rounded-2xl border border-slate-200 bg-slate-900 p-8 md:p-10 text-center"
-        >
-          <h2 className="text-2xl md:text-3xl font-heading font-bold text-white mb-3">
+        {/* Close */}
+        <section className="border-t border-border pt-10 text-center max-w-lg mx-auto">
+          <h2 className="text-xl font-heading font-semibold text-foreground mb-2">
             Want the full picture?
           </h2>
-          <p className="text-slate-300 mb-6 max-w-lg mx-auto">
+          <p className="text-muted-foreground mb-6">
             My résumé has the complete rundown of my experience, education, and
             certifications.
           </p>
@@ -248,18 +186,18 @@ const AboutMePage = () => {
               href={PROFILE.resume}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white hover:bg-emerald-500 transition-colors w-full sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-brass px-6 py-3 text-sm font-semibold text-white hover:bg-brass-hover transition-colors w-full sm:w-auto"
             >
               <FileText size={18} /> View Résumé
             </a>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-600 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition-colors w-full sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground hover:bg-accent transition-colors w-full sm:w-auto"
             >
               Get in touch
             </Link>
           </div>
-        </motion.section>
+        </section>
       </MaxWidthWrapper>
     </div>
   );

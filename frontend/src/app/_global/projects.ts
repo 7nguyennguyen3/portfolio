@@ -9,7 +9,6 @@ export interface ProjectItem {
   purpose: string[]; // paragraphs for the "Overview" section
   highlights: string[]; // key features / accomplishments
   icon: "calculator" | "sparkles" | "smartphone";
-  accent: string; // tailwind gradient for the icon tile
   liveLink?: string;
   githubLink?: string;
   privacyLink?: string;
@@ -29,7 +28,6 @@ export const PROJECTS: ProjectItem[] = [
     period: "July 2026",
     technologies: ["TypeScript", "Next.js", "Vercel"],
     icon: "calculator",
-    accent: "from-emerald-500 to-teal-600",
     purpose: [
       "Lease accounting under ASC 842 requires lessees to recognize a right-of-use (ROU) asset and a corresponding lease liability for most leases. Working the schedules by hand is tedious and error-prone, so I built a tool to generate them reliably.",
       "The calculator takes lease inputs and produces a full amortization schedule, calculating the ROU asset and lease liability balances period by period, along with the appropriate lease classification.",
@@ -53,7 +51,6 @@ export const PROJECTS: ProjectItem[] = [
     period: "2025 – 2026",
     technologies: ["TypeScript", "Python", "Stripe", "AI / LLM"],
     icon: "sparkles",
-    accent: "from-indigo-500 to-violet-600",
     liveLink: "https://insights-crucible-61mskh3y4-shields-projects-61a21ea9.vercel.app/",
     githubLink: "https://github.com/7nguyennguyen3",
     storeNote:
@@ -80,7 +77,6 @@ export const PROJECTS: ProjectItem[] = [
     period: "2025 – 2026",
     technologies: ["Mobile", "Stripe", "App Store", "Google Play"],
     icon: "smartphone",
-    accent: "from-amber-500 to-orange-600",
     storeNote: "Available on the App Store and Google Play",
     privacyLink: "/ember-privacy-policy",
     appStoreLink: "https://apps.apple.com/is/app/ember-minimalistic-focus/id6757570126",

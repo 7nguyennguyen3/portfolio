@@ -5,35 +5,35 @@ import { PROFILE } from "@/app/_global/variables";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-slate-200 bg-slate-50">
+    <footer className="border-t border-border bg-section">
       <MaxWidthWrapper className="py-12">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-900 text-xs font-semibold text-white">
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink text-xs font-semibold text-white">
                 NN
               </span>
-              <span className="font-heading font-semibold text-slate-900">
+              <span className="font-heading font-semibold text-foreground">
                 Nguyen Nguyen
               </span>
             </div>
-            <p className="text-sm text-slate-500 max-w-xs">
+            <p className="text-sm text-muted-foreground max-w-xs">
               Accounting student · CPA-track · {PROFILE.location}
             </p>
           </div>
 
           <div className="flex flex-col gap-4">
-            <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-600">
-              <Link href="/" className="hover:text-slate-900">
+            <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+              <Link href="/" className="hover:text-foreground">
                 Home
               </Link>
-              <Link href="/projects" className="hover:text-slate-900">
+              <Link href="/projects" className="hover:text-foreground">
                 Projects
               </Link>
-              <Link href="/about" className="hover:text-slate-900">
+              <Link href="/about" className="hover:text-foreground">
                 About
               </Link>
-              <Link href="/contact" className="hover:text-slate-900">
+              <Link href="/contact" className="hover:text-foreground">
                 Contact
               </Link>
             </nav>
@@ -43,7 +43,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub"
-                className="p-2 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors"
+                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
               >
                 <Github size={18} />
               </a>
@@ -52,14 +52,14 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
-                className="p-2 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors"
+                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
               >
                 <Linkedin size={18} />
               </a>
               <a
                 href={`mailto:${PROFILE.email}`}
                 aria-label="Email"
-                className="p-2 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors"
+                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
               >
                 <Mail size={18} />
               </a>
@@ -68,7 +68,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Résumé"
-                className="p-2 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-200 transition-colors"
+                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
               >
                 <FileText size={18} />
               </a>
@@ -76,7 +76,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-slate-200 text-center text-xs text-slate-400">
+        <div className="mt-10 pt-6 border-t border-border text-center text-xs text-muted-foreground/70">
           © {new Date().getFullYear()} Nguyen Nguyen. Built with Next.js &
           Tailwind CSS.
         </div>

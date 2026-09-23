@@ -23,30 +23,12 @@ import {
 import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion";
+import { fadeUp, stagger, staggerItem } from "@/lib/motion";
 
 const iconMap: Record<string, React.ElementType<LucideProps>> = {
   calculator: Calculator,
   sparkles: Sparkles,
   smartphone: Smartphone,
-};
-
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeInOut" },
-  },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
-};
-
-const staggerItem = {
-  hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0 },
 };
 
 const ProjectDetail = ({ projectName }: { projectName: string }) => {
@@ -56,18 +38,18 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
     return (
       <div className="py-20 min-h-[calc(100vh-10rem)] flex flex-col items-center justify-center text-center">
         <MaxWidthWrapper>
-          <AlertTriangle className="w-16 h-16 text-amber-500 mb-4 mx-auto" />
-          <h1 className="text-3xl font-heading font-bold mb-2 text-slate-900">
+          <AlertTriangle className="w-16 h-16 text-brass mb-4 mx-auto" />
+          <h1 className="text-3xl font-heading font-bold mb-2 text-foreground">
             Project Not Found
           </h1>
-          <p className="text-slate-500 mb-6">
+          <p className="text-muted-foreground mb-6">
             Could not find details for a project named &quot;{projectName}&quot;.
           </p>
           <Link
             href="/projects"
             className={cn(
               buttonVariants(),
-              "bg-slate-900 text-white hover:bg-slate-800"
+              "bg-ink text-white hover:bg-ink/90"
             )}
           >
             Back to Projects
@@ -88,28 +70,21 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
       className="pb-20 md:pb-24"
     >
       {/* Banner */}
-      <div className="border-b border-slate-200 bg-slate-50 bg-grid-slate">
+      <div className="border-b border-border bg-section">
         <MaxWidthWrapper className="py-12 md:py-16">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 transition-colors mb-8"
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="h-4 w-4" /> All projects
           </Link>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-5">
-            <div
-              className={cn(
-                "flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-sm shrink-0",
-                project.accent
-              )}
-            >
-              <Icon className="h-8 w-8" />
-            </div>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <Icon className="h-9 w-9 text-brass shrink-0" />
             <div>
-              <p className="text-sm font-medium text-emerald-700 mb-1">
+              <p className="text-sm font-medium text-brass mb-1">
                 {project.type} · {project.period}
               </p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold tracking-tight text-slate-900">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold tracking-tight text-foreground">
                 {project.title}
               </h1>
             </div>
@@ -122,14 +97,14 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
           {/* Main content */}
           <div className="lg:col-span-2 flex flex-col gap-10">
             <motion.section
-              variants={fadeInUp}
+              variants={fadeUp}
               initial="hidden"
               animate="visible"
             >
-              <h2 className="text-2xl font-heading font-semibold mb-4 border-b border-slate-200 pb-2 text-slate-900">
+              <h2 className="text-2xl font-heading font-semibold mb-4 border-b border-border pb-2 text-foreground">
                 Overview
               </h2>
-              <div className="flex flex-col gap-4 text-slate-600 leading-relaxed">
+              <div className="flex flex-col gap-4 text-muted-foreground leading-relaxed">
                 {project.purpose.map((para, i) => (
                   <p key={i}>{para}</p>
                 ))}
@@ -137,16 +112,16 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
             </motion.section>
 
             <motion.section
-              variants={fadeInUp}
+              variants={fadeUp}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.1 }}
             >
-              <h2 className="text-2xl font-heading font-semibold mb-4 border-b border-slate-200 pb-2 text-slate-900">
+              <h2 className="text-2xl font-heading font-semibold mb-4 border-b border-border pb-2 text-foreground">
                 Highlights
               </h2>
               <motion.ul
-                variants={staggerContainer}
+                variants={stagger}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.1 }}
@@ -158,8 +133,8 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
                     variants={staggerItem}
                     className="flex items-start gap-3"
                   >
-                    <Check className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-slate-600">{feature}</span>
+                    <Check className="w-5 h-5 text-brass flex-shrink-0 mt-0.5" />
+                    <span className="text-muted-foreground">{feature}</span>
                   </motion.li>
                 ))}
               </motion.ul>
@@ -168,12 +143,12 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
 
           {/* Sidebar */}
           <motion.aside
-            variants={fadeInUp}
+            variants={fadeUp}
             initial="hidden"
             animate="visible"
-            className="lg:col-span-1 lg:sticky lg:top-24 h-fit flex flex-col gap-6 p-6 border border-slate-200 rounded-2xl shadow-sm bg-white"
+            className="lg:col-span-1 lg:sticky lg:top-24 h-fit flex flex-col gap-6 p-6 border border-border rounded-2xl bg-card"
           >
-            <h3 className="text-lg font-heading font-semibold border-b border-slate-200 pb-3 text-slate-900">
+            <h3 className="text-lg font-heading font-semibold border-b border-border pb-3 text-foreground">
               Project Info
             </h3>
 
@@ -185,7 +160,7 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
                   rel="noopener noreferrer"
                   className={cn(
                     buttonVariants({ size: "lg" }),
-                    "gap-2 w-full bg-emerald-700 hover:bg-emerald-800 text-white"
+                    "gap-2 w-full bg-brass hover:bg-brass-hover text-white"
                   )}
                 >
                   Visit Live Site <ExternalLink size={18} />
@@ -198,7 +173,7 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
                   rel="noopener noreferrer"
                   className={cn(
                     buttonVariants({ size: "lg" }),
-                    "gap-2 w-full bg-emerald-700 hover:bg-emerald-800 text-white"
+                    "gap-2 w-full bg-brass hover:bg-brass-hover text-white"
                   )}
                 >
                   Download on the App Store <Apple size={18} />
@@ -211,7 +186,7 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
                   rel="noopener noreferrer"
                   className={cn(
                     buttonVariants({ variant: "outline", size: "lg" }),
-                    "gap-2 w-full border-slate-300 text-slate-700 hover:bg-slate-50"
+                    "gap-2 w-full border-border text-foreground/80 hover:bg-accent"
                   )}
                 >
                   Get it on Google Play <PlayCircle size={18} />
@@ -224,7 +199,7 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
                   rel="noopener noreferrer"
                   className={cn(
                     buttonVariants({ variant: "outline", size: "lg" }),
-                    "gap-2 w-full border-slate-300 text-slate-700 hover:bg-slate-50"
+                    "gap-2 w-full border-border text-foreground/80 hover:bg-accent"
                   )}
                 >
                   View on GitHub <Github size={18} />
@@ -235,7 +210,7 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
                   href={project.privacyLink}
                   className={cn(
                     buttonVariants({ variant: "outline", size: "lg" }),
-                    "gap-2 w-full border-slate-300 text-slate-700 hover:bg-slate-50"
+                    "gap-2 w-full border-border text-foreground/80 hover:bg-accent"
                   )}
                 >
                   Privacy Policy <ShieldCheck size={18} />
@@ -244,25 +219,25 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
             </div>
 
             {project.storeNote && (
-              <p className="text-sm text-slate-500 -mt-2">{project.storeNote}</p>
+              <p className="text-sm text-muted-foreground -mt-2">{project.storeNote}</p>
             )}
 
             <div>
-              <h4 className="font-semibold mb-1 text-xs text-slate-400 uppercase tracking-wider">
+              <h4 className="font-semibold mb-1 text-xs text-muted-foreground uppercase tracking-wider">
                 Type
               </h4>
-              <p className="text-slate-700 text-sm">{project.type}</p>
+              <p className="text-foreground/80 text-sm">{project.type}</p>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-2 text-xs text-slate-400 uppercase tracking-wider">
+              <h4 className="font-semibold mb-2 text-xs text-muted-foreground uppercase tracking-wider">
                 Tech & Tools
               </h4>
               <div className="flex flex-wrap gap-2">
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2.5 py-1 text-xs font-medium text-slate-600 bg-slate-100 border border-slate-200 rounded-md"
+                    className="px-2.5 py-1 text-xs font-medium text-muted-foreground bg-secondary border border-border rounded-md"
                   >
                     {tech}
                   </span>
@@ -272,7 +247,7 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
 
             {otherProjects.length > 0 && (
               <div>
-                <h4 className="font-semibold mb-3 text-xs text-slate-400 uppercase tracking-wider border-t border-slate-200 pt-4">
+                <h4 className="font-semibold mb-3 text-xs text-muted-foreground uppercase tracking-wider border-t border-border pt-4">
                   Other Projects
                 </h4>
                 <div className="flex flex-col gap-3">
@@ -280,7 +255,7 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
                     <Link
                       key={other.slug}
                       href={`/projects/${other.slug}`}
-                      className="text-sm text-slate-600 hover:text-emerald-700 flex items-center justify-between group"
+                      className="text-sm text-muted-foreground hover:text-brass flex items-center justify-between group"
                     >
                       {other.title}
                       <ArrowRight
@@ -297,7 +272,7 @@ const ProjectDetail = ({ projectName }: { projectName: string }) => {
 
         {project.slug === "asc-842-lease-calculator" && (
           <motion.div
-            variants={fadeInUp}
+            variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }}

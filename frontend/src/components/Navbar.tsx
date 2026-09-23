@@ -1,10 +1,11 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { FileText, Menu, X } from "lucide-react";
+import { FileText, Menu, Moon, Sun, X } from "lucide-react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { buttonVariants } from "./ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -13,11 +14,41 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
+const ThemeToggle = ({ className }: { className?: string }) => {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return <div className={cn("h-9 w-9", className)} aria-hidden />;
+  }
+
+  return (
+    <button
+      onClick={() =>
+        setTheme(resolvedTheme === "dark" ? "light" : "dark")
+      }
+      aria-label="Toggle theme"
+      className={cn(
+        "p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors",
+        className
+      )}
+    >
+      {resolvedTheme === "dark" ? (
+        <Sun className="h-4 w-4" />
+      ) : (
+        <Moon className="h-4 w-4" />
+      )}
+    </button>
+  );
+};
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="sticky z-[100] inset-x-0 top-0 w-full border-b border-slate-200 bg-white/80 backdrop-blur-lg transition-all">
+    <nav className="sticky z-[100] inset-x-0 top-0 w-full border-b border-border bg-background/80 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
         <div className="flex h-16 items-center justify-between">
           <Link
@@ -25,14 +56,14 @@ const Navbar = () => {
             aria-label="Homepage"
             className="flex items-center gap-2 group"
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-900 text-sm font-semibold text-white">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-sm font-semibold text-white">
               NN
             </span>
             <span className="hidden sm:flex flex-col leading-tight">
-              <span className="text-sm font-semibold text-slate-900">
+              <span className="text-sm font-semibold text-foreground">
                 Nguyen Nguyen
               </span>
-              <span className="text-xs text-slate-500">
+              <span className="text-xs text-muted-foreground">
                 Accounting · Business Analytics
               </span>
             </span>
@@ -48,20 +79,21 @@ const Navbar = () => {
                   size: "sm",
                   variant: "ghost",
                   className:
-                    "text-slate-600 hover:text-slate-900 hover:bg-slate-100",
+                    "text-muted-foreground hover:text-foreground hover:bg-accent",
                 })}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="h-6 w-px bg-slate-200 mx-2" />
+            <div className="h-6 w-px bg-border mx-2" />
+            <ThemeToggle />
             <a
               href="/Nguyen_Nguyen_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
                 buttonVariants({ size: "sm" }),
-                "gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white"
+                "gap-1.5 bg-brass hover:bg-brass-hover text-white ml-1"
               )}
             >
               <FileText className="h-4 w-4" />
@@ -70,19 +102,22 @@ const Navbar = () => {
           </div>
 
           {/* Mobile toggle */}
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className="md:hidden p-2 rounded-lg text-slate-700 hover:bg-slate-100"
-            aria-label="Toggle menu"
-          >
-            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          <div className="md:hidden flex items-center gap-1">
+            <ThemeToggle />
+            <button
+              onClick={() => setOpen((v) => !v)}
+              className="p-2 rounded-lg text-foreground hover:bg-accent"
+              aria-label="Toggle menu"
+            >
+              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
       </MaxWidthWrapper>
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-slate-200 bg-white">
+        <div className="md:hidden border-t border-border bg-background">
           <MaxWidthWrapper>
             <div className="flex flex-col py-3">
               {NAV_LINKS.map((link) => (
@@ -90,7 +125,7 @@ const Navbar = () => {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="px-2 py-2.5 text-sm text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-md"
+                  className="px-2 py-2.5 text-sm text-foreground/80 hover:text-foreground hover:bg-accent rounded-md"
                 >
                   {link.label}
                 </Link>
@@ -102,7 +137,7 @@ const Navbar = () => {
                 onClick={() => setOpen(false)}
                 className={cn(
                   buttonVariants({ size: "sm" }),
-                  "gap-1.5 bg-emerald-700 hover:bg-emerald-800 text-white mt-2"
+                  "gap-1.5 bg-brass hover:bg-brass-hover text-white mt-2"
                 )}
               >
                 <FileText className="h-4 w-4" />
